@@ -2,29 +2,89 @@
 	--text-color: #333;
 }
 
+/* dm-sans-regular - latin */
+@font-face {
+  font-display: swap;
+  font-family: 'DM Sans';
+  font-style: normal;
+  font-weight: 400;
+  src: url('/fonts/dm-sans-v15-latin-regular.woff2') format('woff2'); 
+}
+/* dm-sans-600 - latin */
+@font-face {
+  font-display: swap; 
+  font-family: 'DM Sans';
+  font-style: normal;
+  font-weight: 600;
+  src: url('/fonts/dm-sans-v15-latin-600.woff2') format('woff2'); 
+}
+
 *,
 *::before,
 *::after {
-    box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 * {
-    margin: 0;
+  margin: 0;
   }
   
-  body {
-    font-size: 0.9rem;
-	  font-family: "Arial";
-	  color: var(--text-color);
-    -webkit-font-smoothing: antialiased;
-  }
+body {
+  font-size: 0.9rem;
+  font-family: "DM Sans";
+  color: #333;
+  -webkit-font-smoothing: antialiased;
+}
 
 a {
-    text-decoration-thickness: 8; /* Thickness of underline as % of font size */
+  text-decoration-thickness: 8; /* Thickness of underline as % of font size */
+}
+
+h1, h2 {
+  font-family: "Playfair Display";
+  font-weight: 600;
+}
+
+button {
+  font-family: "DM Sans", sans-serif;
+  background-color: transparent;
+  border: 0;
+  cursor: pointer;
+  color: #333;
+}
+
+/* Mapbox zoom controls */
+.mapboxgl-ctrl-bottom-right > .mapboxgl-ctrl, mapboxgl-ctrl-group, .mapbox-ctrl-group:not(:empty) {
+  box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.15) !important;
 }
 
 @media (prefers-reduced-motion: no-preference) {
-    html {
-          scroll-behavior: smooth;
-    }
+  html {
+        scroll-behavior: smooth;
   }
+}
+
+/* playfair-display-regular - latin */
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: 'Playfair Display';
+  font-style: normal;
+  font-weight: 400;
+  src: url('/fonts/playfair-display-v37-latin-regular.woff2') format('woff2'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+/* playfair-display-600 - latin */
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: 'Playfair Display';
+  font-style: normal;
+  font-weight: 600;
+  src: url('/fonts/playfair-display-v37-latin-600.woff2') format('woff2'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+/* playfair-display-700 - latin */
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: 'Playfair Display';
+  font-style: normal;
+  font-weight: 700;
+  src: url('/fonts/playfair-display-v37-latin-700.woff2') format('woff2'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
