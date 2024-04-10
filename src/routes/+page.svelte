@@ -11,17 +11,38 @@
 
 	// Set state of sidebar
 	let sidebarVisible = true;
+
+	// Import directory data
+	export let data; // Airtable directory data
+	import { directoryData } from '$lib/stores.js';
+
+	import { onMount } from 'svelte';
+	onMount(() => {
+		// Set Airtable data to $directoryData store
+		directoryData.set({
+			type: 'FeatureCollection',
+			features: data.airtableRecords.map((d) => {
+				const obj = {
+					type: 'Feature',
+					geometry: {
+						type: 'Point',
+						coordinates: [+d['Longitude'], +d['Latitude']]
+					},
+					properties: {
+						...d
+					}
+				};
+				return obj;
+			})
+		});
+	});
 </script>
 
 <Map bind:sidebarVisible />
 
 {#if sidebarVisible}
 	<div class="sidebar-content" transition:fade={{ duration: 300 }}>
-		<Sidebar bind:sidebarVisible>
-			<header>
-				<h1>New York State Media Outlets</h1>
-			</header>
-		</Sidebar>
+		<Sidebar bind:sidebarVisible></Sidebar>
 	</div>
 {:else}
 	<button
@@ -37,12 +58,12 @@
 	.sidebar-content {
 		position: relative;
 		max-width: 375px;
-		max-height: calc(100svh - 4rem);
+		max-height: calc(100svh - 8rem);
 		border-radius: 5px;
-		background-color: rgba(23, 23, 23, 0.75);
+		background-color: rgba(255, 255, 255, 0.75);
 		top: 0;
 		z-index: 1;
-		margin: 1rem;
+		margin: 2rem;
 		box-shadow: 0px 0px 24px 3px rgba(255, 255, 255, 0.2);
 		display: flex;
 		flex-direction: column;
@@ -53,8 +74,7 @@
 	.sidebar-collapsed {
 		position: absolute;
 		top: 0;
-		margin: 1rem;
-		cursor: pointer;
+		margin: 2rem;
 		background-color: transparent;
 		border: 0;
 	}
