@@ -2,6 +2,9 @@
 	// Import components
 	import ResetMap from '$lib/components/ResetMap.svelte';
 
+	// Import icon components
+	import ResetIcon from '$lib/components/icons/Reset.svelte';
+
 	// Initialize map
 	import { onMount, onDestroy } from 'svelte';
 
@@ -13,7 +16,7 @@
 	import { map } from '$lib/stores.js';
 
 	// Import transition
-	import { slide } from 'svelte/transition';
+	import { fade } from 'svelte/transition';
 
 	let mapContainer;
 	const centerMap = { lng: -75.2, lat: 42.9 };
@@ -96,8 +99,8 @@
 <div class="btn-container">
 	{#if initialCenterLng?.toFixed(1) !== movedCenterLng?.toFixed(1)}
 		<div class="btn-container">
-			<div class="reset-container" transition:slide={{ axis: 'y', duration: 300 }}>
-				<ResetMap>Reset Map</ResetMap>
+			<div class="reset-container" transition:fade={{ duration: 100 }}>
+				<ResetMap><ResetIcon /></ResetMap>
 			</div>
 		</div>
 	{/if}
@@ -114,11 +117,8 @@
 	/* reset button */
 	.btn-container {
 		position: absolute;
-		top: 10px;
-		right: 10px;
-		display: flex;
-		flex-direction: column;
-		align-items: flex-end;
-		row-gap: 10px;
+		bottom: 50px;
+		right: 5px;
+		z-index: 1;
 	}
 </style>

@@ -5,7 +5,7 @@
 </script>
 
 <button
-	class="resetBtn-map"
+	class="reset-map"
 	on:click|stopPropagation={() => {
 		$map.flyTo({
 			center: [centerMap.lng, centerMap.lat],
@@ -18,15 +18,17 @@
 >
 
 <style>
-	.resetBtn-map {
-		background-color: rgba(243, 185, 95, 0.9);
-		border: 1px solid #f5a64c;
+	button.reset-map {
+		background-color: #fdfdfd;
+		padding: 5px 6px;
+		border-radius: 4px;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		width: 30px;
+		height: 30px;
+		box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.15);
+		border: 0px solid rgba(0, 0, 0, 0.25);
 		cursor: pointer;
-		color: #333;
-		padding: 0.45rem 0.75rem;
-		border-radius: 2px;
-		font-size: 0.9rem;
-		font-weight: 700;
-		text-transform: uppercase;
 	}
 </style>
