@@ -1,7 +1,13 @@
 :root {
-	--text-color: #333;
+	--text-color-black: #333;
+  --white: #FDFDFD;
+  --cerulean: #1679AB;
+  --light-gray: #eeeeee;
+  --blue-gray: #51829b;
+  --yellow-orange: #f8b500;
 }
 
+/* Source: https://gwfh.mranftl.com/fonts */
 /* dm-sans-regular - latin */
 @font-face {
   font-display: swap;
@@ -12,11 +18,35 @@
 }
 /* dm-sans-600 - latin */
 @font-face {
-  font-display: swap; 
+  font-display: swap;
   font-family: 'DM Sans';
   font-style: normal;
   font-weight: 600;
   src: url('/fonts/dm-sans-v15-latin-600.woff2') format('woff2'); 
+}
+/* dm-sans-700 - latin */
+@font-face {
+  font-display: swap;
+  font-family: 'DM Sans';
+  font-style: normal;
+  font-weight: 700;
+  src: url('/fonts/dm-sans-v15-latin-700.woff2') format('woff2'); 
+}
+/* dm-sans-800 - latin */
+@font-face {
+  font-display: swap;
+  font-family: 'DM Sans';
+  font-style: normal;
+  font-weight: 800;
+  src: url('/fonts/dm-sans-v15-latin-800.woff2') format('woff2');
+}
+/* dm-sans-900 - latin */
+@font-face {
+  font-display: swap;
+  font-family: 'DM Sans';
+  font-style: normal;
+  font-weight: 900;
+  src: url('/fonts/dm-sans-v15-latin-900.woff2') format('woff2');
 }
 
 *,
@@ -31,18 +61,25 @@
   
 body {
   font-size: 0.9rem;
-  font-family: "DM Sans";
-  color: #333;
+  font-family: "DM Sans", sans-serif;
+  color: var(--text-color-black);
   -webkit-font-smoothing: antialiased;
 }
 
 a {
+  color: var(--cerulean);
   text-decoration-thickness: 8; /* Thickness of underline as % of font size */
 }
 
-h1, h2 {
+h1 {
   font-family: "Playfair Display";
   font-weight: 600;
+}
+
+h2 {
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin-top: 1rem;
 }
 
 button {
@@ -50,7 +87,21 @@ button {
   background-color: transparent;
   border: 0;
   cursor: pointer;
-  color: #333;
+  color: var(--text-color-black);
+}
+
+.tab {
+  font-weight: 600;
+  padding: 1px 7px;
+  background-color: rgba(220, 220, 220, 0.75);
+  text-transform: uppercase;
+}
+
+.callout {
+  border-radius: 3px;
+  padding: 10px;
+  font-size: 0.8rem;
+  background-color: rgba(254, 241, 188, 0.4);
 }
 
 /* Mapbox zoom controls */
