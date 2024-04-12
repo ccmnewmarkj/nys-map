@@ -12,11 +12,22 @@
 	// Set state of sidebar
 	let sidebarVisible = true;
 
+	// Import data for state regions
+	import regions from '$lib/data/Regional_Economic_Development_Councils.json';
+	import counties from '$lib/data/Counties_Shoreline.json';
+
 	// Import directory data
 	export let data; // Airtable directory data
-	import { directoryData } from '$lib/stores.js';
+	import { directoryData, filteredDirectory, countyPolygons, regionPolygons } from '$lib/stores.js';
+
+	// Create Turf modules
+	import centroid from '@turf/centroid';
 
 	import { onMount } from 'svelte';
+
+	// Variable for checking for duplicate coordinates
+	let longitudeValue;
+
 	onMount(() => {
 		// Set Airtable data to $directoryData store
 		directoryData.set({
@@ -35,16 +46,71 @@
 				return obj;
 			})
 		});
+
+		// Set filteredDirectory to include all outlets as its initial state
+		filteredDirectory.set($directoryData);
+
+		// Check for duplicate coordinates
+		//$directoryData.features.forEach((d) => {
+		// longitudeValue = d.properties.Longitude;
+		// if (
+		// 	$directoryData.features
+		// 		.filter((e) => e.properties['Media Outlet'] !== d.properties['Media Outlet'])
+		// 		.filter((e) => e.properties.Longitude)
+		// 		.filter((e) => e.properties.Longitude === longitudeValue).length > 0
+		// ) {
+		// 	// Add column indicating duplicate coordinates
+		// 	d.properties.duplicateCoords = true;
+		// 	// Nudge coordinates apart
+		// 	(d.geometry.coordinates[0] = d.geometry.coordinates[0] + (Math.random() - 0.5) * 0.002),
+		// 		(d.geometry.coordinates[1] = d.geometry.coordinates[1] + (Math.random() - 0.5) * 0.002);
+		// 	// Add loc approx column
+		// 	d.properties['Location approximate'] = 'Location approximate';
+		// } else {
+		// 	d.properties.duplicateCoords = false;
+		// }
+		//});
+
+		// COUNTIES
+		// Add centroid point for polygon labels
+		counties.features.forEach((d) => {
+			d.centroid = centroid({
+				type: 'Feature',
+				geometry: d.geometry
+			});
+		});
+		// Set polygons as feature collection
+		countyPolygons.set({
+			type: 'FeatureCollection',
+			features: counties.features
+		});
+
+		// REGIONS
+		// Add centroid point for polygon labels
+		regions.features.forEach((d) => {
+			d.centroid = centroid({
+				type: 'Feature',
+				geometry: d.geometry
+			});
+		});
+		// Set polygons as feature collection
+		regionPolygons.set({
+			type: 'FeatureCollection',
+			features: regions.features
+		});
 	});
 </script>
 
+<!-- Map -->
 <Map bind:sidebarVisible />
 
+<!-- Sidebar -->
 {#if sidebarVisible}
 	<div class="sidebar-content" transition:fade={{ duration: 300 }}>
 		<Sidebar bind:sidebarVisible></Sidebar>
 	</div>
 {:else}
+	<!-- Sidebar toggle -->
 	<button
 		aria-label="Show sidebar"
 		class="sidebar-collapsed"
@@ -58,17 +124,18 @@
 	.sidebar-content {
 		position: relative;
 		max-width: 375px;
-		max-height: calc(100svh - 8rem);
+		max-height: calc(100svh - 4rem);
 		border-radius: 5px;
-		background-color: rgba(255, 255, 255, 0.75);
+		background-color: rgba(255, 255, 255, 0.85);
 		top: 0;
 		z-index: 1;
 		margin: 2rem;
-		box-shadow: 0px 0px 24px 3px rgba(255, 255, 255, 0.2);
+		/* box-shadow: 0px 0px 24px 3px rgba(255, 255, 255, 0.2); */
+		box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.1);
 		display: flex;
 		flex-direction: column;
 		overflow: hidden;
-		z-index: 2;
+		border: 0.75px solid var(--blue-gray);
 	}
 
 	.sidebar-collapsed {
