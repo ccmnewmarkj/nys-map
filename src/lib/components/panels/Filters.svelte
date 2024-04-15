@@ -20,7 +20,7 @@
 		$filteredDirectory = {
 			type: 'FeatureCollection',
 			features: $directoryData.features?.filter((d) => {
-				return $selectedFormat.every((format) => d.properties['Format'].includes(format));
+				return $selectedFormat.every((format) => d.properties['Primary Format'].includes(format));
 			})
 		};
 	} else if ($selectedFormat && $selectedCommunity && $selectedLanguage === undefined) {
@@ -28,7 +28,7 @@
 			type: 'FeatureCollection',
 			features: $directoryData.features?.filter((d) => {
 				return (
-					$selectedFormat.every((format) => d.properties['Format'].includes(format)) &&
+					$selectedFormat.every((format) => d.properties['Primary Format'].includes(format)) &&
 					$selectedCommunity.every((community) => d.properties['Community'].includes(community))
 				);
 			})
@@ -38,7 +38,7 @@
 			type: 'FeatureCollection',
 			features: $directoryData.features?.filter((d) => {
 				return (
-					$selectedFormat.every((format) => d.properties['Format'].includes(format)) &&
+					$selectedFormat.every((format) => d.properties['Primary Format'].includes(format)) &&
 					$selectedLanguage.every((language) => d.properties['Language'].includes(language))
 				);
 			})
@@ -82,7 +82,7 @@
 			type: 'FeatureCollection',
 			features: $directoryData.features?.filter((d) => {
 				return (
-					$selectedFormat.every((format) => d.properties['Format'].includes(format)) &&
+					$selectedFormat.every((format) => d.properties['Primary Format'].includes(format)) &&
 					$selectedCommunity.every((community) => d.properties['Community'].includes(community)) &&
 					$selectedLanguage.every((language) => d.properties['Language'].includes(language))
 				);
