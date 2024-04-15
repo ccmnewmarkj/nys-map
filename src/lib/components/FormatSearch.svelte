@@ -9,7 +9,7 @@
 	$: formatList = [
 		...new Set(
 			$filteredDirectory.features
-				?.map((d) => d.properties['Format'])
+				?.map((d) => d.properties['Primary Format'])
 				?.flatMap((d) => d)
 				.sort()
 		)
