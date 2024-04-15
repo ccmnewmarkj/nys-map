@@ -20,7 +20,6 @@
 <style>
 	button.reset-map {
 		background-color: var(--white);
-		padding: 5px 6px;
 		padding: 2px;
 		border-radius: 4px;
 		display: flex;
