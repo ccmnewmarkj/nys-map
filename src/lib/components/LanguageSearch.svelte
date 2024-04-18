@@ -3,12 +3,7 @@
 	import Select from 'svelte-select';
 
 	// Import stores
-	import {
-		selectedLanguage,
-		selectedCommunity,
-		directoryData,
-		filteredDirectory
-	} from '$lib/stores.js';
+	import { map, selectedLanguage, filteredDirectory, selectedOutlet, popup } from '$lib/stores.js';
 
 	// List of formats for dropdown menu
 	$: languageList = [
@@ -22,6 +17,7 @@
 
 	// Selected values in dropdown remain in place even after going to another panel
 	let value;
+	let justValue;
 
 	let languageHeader;
 	$: if ($selectedLanguage) {
@@ -37,6 +33,7 @@
 				: `Search from ${languageList.length} language`;
 	}
 
+	// Clear $selectedLanguage values when clear button is selected
 	function handleClear() {
 		if ($selectedLanguage.length > 1) {
 			if (value === undefined) {
@@ -47,6 +44,23 @@
 		} else {
 			$selectedLanguage = undefined;
 		}
+	}
+
+	// Clear any selected filter values when an outlet has been selected (in search box)
+	$: if ($selectedLanguage === undefined) {
+		value = undefined; // Clears selected value in dropdown
+	}
+
+	// Reset markers when filter value has been selected (and $selectedOutlet is undefined)
+	$: if ($selectedOutlet === undefined) {
+		$map.setPaintProperty('outlet-layer', 'circle-opacity', 1);
+		$map.setFilter('outlet-search-layer', ['in', 'Media Outlet', '']);
+	}
+
+	// Retain filter selections when clicking away to other tabs and returning to filters
+	$: if ($selectedLanguage && value === undefined) {
+		justValue = $selectedLanguage;
+		value = justValue;
 	}
 </script>
 
@@ -59,8 +73,13 @@
 		multiple
 		closeListOnChange={false}
 		bind:value
-		on:change={() => ($selectedLanguage = value.map((d) => d.value))}
+		on:change={() => {
+			$selectedOutlet ? ($selectedOutlet = undefined) : null;
+			$selectedLanguage = value.map((d) => d.value);
+			$popup?.remove();
+		}}
 		on:clear={handleClear}
+		on:clear={() => $popup?.remove()}
 	/>
 </form>
 

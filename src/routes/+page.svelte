@@ -40,7 +40,8 @@
 						coordinates: [+d['Longitude'], +d['Latitude']]
 					},
 					properties: {
-						...d
+						...d,
+						'Primary Format': d['Primary Format'].toString()
 					}
 				};
 				return obj;

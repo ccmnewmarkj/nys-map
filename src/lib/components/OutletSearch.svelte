@@ -7,7 +7,14 @@
 	export let data;
 
 	// Import stores
-	import { map, popup, selectedOutlet } from '$lib/stores.js';
+	import {
+		map,
+		popup,
+		selectedOutlet,
+		selectedFormat,
+		selectedCommunity,
+		selectedLanguage
+	} from '$lib/stores.js';
 
 	const outletNames = data.features?.map((d) => d.properties['Media Outlet'])?.sort();
 
@@ -25,25 +32,43 @@
 		});
 	}
 
-	function showPopup() {
-		const popupContent = 'Popup content'; // Example popup content
-
-		// Create and show the popup
-		popup.set(new mapboxgl.Popup().setLngLat([lng, lat]).setHTML(popupContent).addTo($map));
+	function highlightOutlet() {
+		if ($selectedOutlet) {
+			$map.setPaintProperty('outlet-layer', 'circle-opacity', 0.25);
+		}
 	}
+
+	function toggleAccordion() {
+		if ($selectedOutlet) {
+			value = undefined;
+			$selectedOutlet = undefined;
+			$popup?.remove();
+			$map.setPaintProperty('outlet-layer', 'circle-opacity', 1);
+			$map.setFilter('outlet-search-layer', ['in', 'Media Outlet', '']);
+		}
+	}
+
+	// Clear any selected filter values when an outlet has been selected (in search box)
+	$: if ($selectedOutlet === undefined) {
+		value = undefined;
+	}
+
+	// $: console.log('selectedOutlet:', $selectedOutlet);
+	// $: console.log('value:', value);
 </script>
 
-<details>
+<details on:toggle={toggleAccordion}>
 	<summary>Search by Outlet</summary>
 	<div class="content">
 		<p>
-			Selecting an outlet will show its location on the map through a pulsing effect. To turn off
-			the effect, click on the corresponding marker.
+			When an outlet is selected, any applied filters above will be cleared. The map will then zoom
+			in to the outlet's location and a popup at its corresponding marker will appear containing
+			details about the outlet.
 		</p>
-		<p style="font-size: 0.8rem; margin-top: 0.5rem;">
+		<!-- <p style="font-size: 0.8rem; margin-top: 0.5rem;">
 			<strong>Note:</strong> The selection not affect the values of the three filters or the list
 			under the <span class="tab">Outlets</span> tab.
-		</p>
+		</p> -->
 	</div>
 	<form>
 		<!-- <label for="outlet-search">Search by media outlet</label> -->
@@ -52,7 +77,12 @@
 			items={outletNames}
 			placeholder="Find outlet name"
 			bind:value
-			on:change={() => ($selectedOutlet = value?.value)}
+			on:change={() => {
+				$selectedFormat ? ($selectedFormat = undefined) : null;
+				$selectedCommunity ? ($selectedCommunity = undefined) : null;
+				$selectedLanguage ? ($selectedLanguage = undefined) : null;
+				$selectedOutlet = value?.value;
+			}}
 			on:change={() => {
 				lng = data.features
 					?.filter((d) => d.properties['Media Outlet'] === $selectedOutlet)
@@ -60,13 +90,20 @@
 				lat = data.features
 					?.filter((d) => d.properties['Media Outlet'] === $selectedOutlet)
 					.map((d) => d.geometry.coordinates[1]);
-			}}
-			on:change={() =>
+
 				data.features?.map((d) => d.properties['Latitude'])[0] !== undefined
 					? flyTo(10, [lng, lat])
-					: null}
-			on:change={showPopup}
-			on:clear={() => ($selectedOutlet = undefined)}
+					: null;
+			}}
+			on:change={highlightOutlet}
+			on:clear={() => {
+				$selectedOutlet = undefined;
+				$popup?.remove();
+			}}
+			on:clear={() => {
+				$map.setPaintProperty('outlet-layer', 'circle-opacity', 1);
+				$map.setFilter('outlet-search-layer', ['in', 'Media Outlet', '']);
+			}}
 		/>
 	</form>
 </details>
@@ -103,7 +140,7 @@
 		border-style: solid;
 		border-color: transparent transparent transparent var(--yellow-orange);
 		position: absolute;
-		top: 0.75rem;
+		top: 0.65rem;
 		left: 1rem;
 		transform: rotate(0);
 		transform-origin: 0.2rem 50%;
