@@ -1,10 +1,18 @@
 <script>
 	// Import icon components
-	// import InfoIcon from '$lib/components/icons/Info.svelte';
-	// import ListIcon from '$lib/components/icons/List.svelte';
+	import InfoIcon from '$lib/components/icons/InfoCircle.svelte';
+	import SearchIcon from '$lib/components/icons/Search.svelte';
+	import ListIcon from '$lib/components/icons/List.svelte';
 
 	// Import stores
-	import { aboutPanelVisible, searchPanelVisible, outletPanelVisible } from '$lib/stores.js';
+	import {
+		map,
+		popup,
+		aboutPanelVisible,
+		searchPanelVisible,
+		outletPanelVisible,
+		selectedOutlet
+	} from '$lib/stores.js';
 
 	export let badgeCount = '';
 </script>
@@ -16,7 +24,13 @@
 			$aboutPanelVisible = true;
 			$searchPanelVisible = false;
 			$outletPanelVisible = false;
-		}}>About</button
+			if ($selectedOutlet) {
+				$selectedOutlet = undefined;
+				$popup?.remove();
+				$map.setPaintProperty('outlet-layer', 'circle-opacity', 1);
+				$map.setFilter('outlet-search-layer', ['in', 'Media Outlet', '']);
+			}
+		}}><InfoIcon />About</button
 	>
 	<button
 		class:active={$searchPanelVisible}
@@ -24,7 +38,13 @@
 			$aboutPanelVisible = false;
 			$searchPanelVisible = true;
 			$outletPanelVisible = false;
-		}}>Search</button
+			if ($selectedOutlet) {
+				$selectedOutlet = undefined;
+				$popup?.remove();
+				$map.setPaintProperty('outlet-layer', 'circle-opacity', 1);
+				$map.setFilter('outlet-search-layer', ['in', 'Media Outlet', '']);
+			}
+		}}><SearchIcon />Search</button
 	>
 	<button
 		class:active={$outletPanelVisible}
@@ -32,8 +52,14 @@
 			$aboutPanelVisible = false;
 			$searchPanelVisible = false;
 			$outletPanelVisible = true;
+			if ($selectedOutlet) {
+				$selectedOutlet = undefined;
+				$popup?.remove();
+				$map.setPaintProperty('outlet-layer', 'circle-opacity', 1);
+				$map.setFilter('outlet-search-layer', ['in', 'Media Outlet', '']);
+			}
 		}}
-		>Outlets {#if badgeCount}
+		><ListIcon />Outlets {#if badgeCount}
 			<span class="badge-count">{badgeCount}</span>
 		{/if}</button
 	>
@@ -48,6 +74,7 @@
 
 	button {
 		background-color: var(--light-gray);
+		font-family: 'Roboto Condensed', sans-serif;
 		font-size: 1rem;
 		font-weight: 600;
 		text-transform: uppercase;
@@ -56,7 +83,10 @@
 		justify-content: center;
 		align-items: center;
 		gap: 5px;
-		flex: 1 1 0px; /* make buttons equal width */
+		flex: 1; /* make buttons equal width */
+	}
+	button:last-child {
+		flex: 1.2; /* make the last button slightly larger */
 	}
 
 	button:not(:last-child) {
