@@ -1,29 +1,26 @@
 <script>
-	import mapboxgl from 'mapbox-gl';
 	// svelte-select for dropdown menu
 	import Select from 'svelte-select';
-
-	// Set variable for selected outlet name
-	export let data;
 
 	// Import stores
 	import {
 		map,
 		popup,
+		directoryData,
 		selectedOutlet,
 		selectedFormat,
 		selectedCommunity,
 		selectedLanguage
 	} from '$lib/stores.js';
 
-	const outletNames = data.features?.map((d) => d.properties['Media Outlet'])?.sort();
+	const outletNames = $directoryData.features?.map((d) => d.properties['Media Outlet'])?.sort();
 
 	// Set variable for selected outlet name
 	let value;
-	let lng;
-	let lat;
 
 	// Zoom to outlet location on map when outlet name is selected
+	let lng;
+	let lat;
 	function flyTo(zoom, center) {
 		$map.flyTo({
 			zoom: zoom,
@@ -32,12 +29,14 @@
 		});
 	}
 
+	// Highlight selected outlet on map
 	function highlightOutlet() {
 		if ($selectedOutlet) {
 			$map.setPaintProperty('outlet-layer', 'circle-opacity', 0.25);
 		}
 	}
 
+	// When accordion is closed, any selected outlet will be cleared
 	function toggleAccordion() {
 		if ($selectedOutlet) {
 			value = undefined;
@@ -48,28 +47,20 @@
 		}
 	}
 
-	// Clear any selected filter values when an outlet has been selected (in search box)
+	// Clear any selected filter values when an outlet has been selected (in search box) (and vice versa)
 	$: if ($selectedOutlet === undefined) {
 		value = undefined;
 	}
-
-	// $: console.log('selectedOutlet:', $selectedOutlet);
-	// $: console.log('value:', value);
 </script>
 
-<details on:toggle={toggleAccordion}>
+<details on:toggle={toggleAccordion} open>
 	<summary>Search by Outlet</summary>
-	<div class="content">
-		<p>
-			When an outlet is selected, any applied filters above will be cleared. The map will then zoom
-			in to the outlet's location and a popup at its corresponding marker will appear containing
-			details about the outlet.
-		</p>
-		<!-- <p style="font-size: 0.8rem; margin-top: 0.5rem;">
-			<strong>Note:</strong> The selection not affect the values of the three filters or the list
-			under the <span class="tab">Outlets</span> tab.
-		</p> -->
-	</div>
+
+	<p class="content">
+		When an outlet is selected, any applied filters above will be cleared. The map will then zoom in
+		to the outlet's location. Select the highlighted marker for more details.
+	</p>
+
 	<form>
 		<!-- <label for="outlet-search">Search by media outlet</label> -->
 		<Select
@@ -82,16 +73,17 @@
 				$selectedCommunity ? ($selectedCommunity = undefined) : null;
 				$selectedLanguage ? ($selectedLanguage = undefined) : null;
 				$selectedOutlet = value?.value;
+				$popup?.remove();
 			}}
 			on:change={() => {
-				lng = data.features
+				lng = $directoryData.features
 					?.filter((d) => d.properties['Media Outlet'] === $selectedOutlet)
 					.map((d) => d.geometry.coordinates[0]);
-				lat = data.features
+				lat = $directoryData.features
 					?.filter((d) => d.properties['Media Outlet'] === $selectedOutlet)
 					.map((d) => d.geometry.coordinates[1]);
 
-				data.features?.map((d) => d.properties['Latitude'])[0] !== undefined
+				$directoryData.features?.map((d) => d.properties['Latitude'])[0] !== undefined
 					? flyTo(10, [lng, lat])
 					: null;
 			}}
@@ -99,13 +91,17 @@
 			on:clear={() => {
 				$selectedOutlet = undefined;
 				$popup?.remove();
-			}}
-			on:clear={() => {
 				$map.setPaintProperty('outlet-layer', 'circle-opacity', 1);
 				$map.setFilter('outlet-search-layer', ['in', 'Media Outlet', '']);
 			}}
 		/>
 	</form>
+	{#if $selectedOutlet}
+		<p class="content" style="font-size: 0.8rem; padding-top: 0; color: #6d6d6d;">
+			To reset the selected outlet and corresponding highlighted circle, select the "Clear outlet"
+			button that will appear on the map.
+		</p>
+	{/if}
 </details>
 
 <style>
@@ -117,13 +113,13 @@
 	/* accordion styles from https://css-tricks.com/how-to-animate-the-details-element/ */
 	details {
 		box-sizing: border-box;
-		background: rgba(81, 130, 155, 0.1);
+		background-color: var(--alice-blue-light);
 	}
 
 	details > summary {
 		padding: 0.5rem;
 		display: block;
-		background: var(--blue-gray);
+		background-color: var(--blue-gray);
 		font-weight: 600;
 		color: white;
 		padding-left: 2.2rem;

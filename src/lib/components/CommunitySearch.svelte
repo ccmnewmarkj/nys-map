@@ -3,64 +3,54 @@
 	import Select from 'svelte-select';
 
 	// Import stores
-	import { map, selectedCommunity, filteredDirectory, selectedOutlet, popup } from '$lib/stores.js';
+	import {
+		filteredDirectory,
+		selectedCommunity,
+		directoryData,
+		selectedOutlet,
+		popup,
+		map
+	} from '$lib/stores.js';
 
-	// List of formats for dropdown menu
+	// List of communities for dropdown menu
 	$: communityList = [
 		...new Set(
 			$filteredDirectory.features
 				?.map((d) => d.properties['Community'])
-				?.flatMap((d) => d)
+				.flatMap((d) => d)
 				.sort()
 		)
 	];
 
 	// Selected values in dropdown remain in place even after going to another panel
-	let value;
-	let justValue;
+	let value = $selectedCommunity;
 
+	// Text above filter dropdown
 	let communityHeader;
 	$: if ($selectedCommunity) {
 		if (communityList.length > 1) {
-			communityHeader = `Search from <span style="color: var(--cerulean);">${communityList.length} communities</span>`;
+			communityHeader =
+				// Search from <span style="color: var(--cerulean);">${communityList.length} communities</span>
+				// If you search using more than one community, you'll only see results from outlets that have content in all of the selected communities.
+				`
+			Search by ${communityList.length - 1} more ${communityList.length - 1 > 1 ? 'communities' : 'community'}
+			<span style="display: block; font-weight: 400; font-size: 0.8rem; color: gray;">Searching by more than one community will show outlets with content for all selected communities, not outlets that serve just one of the communities.</span>	
+			`;
 		} else if (communityList.length === 1) {
-			communityHeader = 'no additional communities available';
+			communityHeader = `<span style="color: gray;">No additional communities available</span>`;
 		}
 	} else {
 		communityHeader =
-			communityList.length > 1
-				? `Search from ${communityList.length} communities`
-				: `Search from ${communityList.length} community`;
+			// communityList.length > 1
+			// 	? `Search from ${communityList.length} communities`
+			// 	: `Search from ${communityList.length} community`;
+			`Search by community <span style="font-weight: 400;">(${communityList.length} total)</span>`;
 	}
 
-	// Clear $selectedCommunity values when clear button is selected
-	function handleClear() {
-		if ($selectedCommunity.length > 1) {
-			if (value === undefined) {
-				$selectedCommunity = undefined;
-			} else {
-				$selectedCommunity = value.map((d) => d.value);
-			}
-		} else {
-			$selectedCommunity = undefined;
-		}
-	}
-
-	// Clear any selected filter values when an outlet has been selected (in search box)
-	$: if ($selectedCommunity === undefined) {
-		value = undefined; // Clears selected value in dropdown
-	}
-
-	// Reset markers when filter value has been selected (and $selectedOutlet is undefined)
-	$: if ($selectedOutlet === undefined) {
-		$map.setPaintProperty('outlet-layer', 'circle-opacity', 1);
-		$map.setFilter('outlet-search-layer', ['in', 'Media Outlet', '']);
-	}
-
-	// Retain filter selections when clicking away to other tabs and returning to filters
-	$: if ($selectedCommunity && value === undefined) {
-		justValue = $selectedCommunity;
-		value = justValue;
+	// Clear/reset selected filter when outlet is selected
+	$: if ($selectedOutlet) {
+		value ? (value = undefined) : null; // clear selected value in filter when outlet is selected
+		$filteredDirectory = $directoryData; // reset filter options
 	}
 </script>
 
@@ -73,15 +63,26 @@
 		items={communityList}
 		placeholder="Select community"
 		multiple
-		closeListOnChange={false}
+		clearable={false}
 		bind:value
-		on:change={() => {
+		on:focus={() => {
 			$selectedOutlet ? ($selectedOutlet = undefined) : null;
-			$selectedCommunity = value.map((d) => d.value);
 			$popup?.remove();
+			$map.setPaintProperty('outlet-layer', 'circle-opacity', 1);
+			$map.setFilter('outlet-search-layer', ['in', 'Media Outlet', '']);
 		}}
-		on:clear={handleClear}
-		on:clear={() => $popup?.remove()}
+		on:change={() => {
+			$selectedCommunity = value.map((d) => d.value);
+		}}
+		on:clear={() => {
+			$popup?.remove();
+			if (value === undefined) {
+				$selectedCommunity = undefined;
+				$filteredDirectory = $directoryData;
+			} else {
+				$selectedCommunity = value.map((d) => d.value);
+			}
+		}}
 	/>
 </form>
 
@@ -91,12 +92,8 @@
 	}
 
 	.filter-name {
-		font-weight: 900;
-		text-transform: uppercase;
+		font-weight: 800;
+		/* text-transform: uppercase; */
 		font-size: 0.85rem;
-	}
-
-	.active {
-		color: var(--cerulean);
 	}
 </style>

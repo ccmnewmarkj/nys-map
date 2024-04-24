@@ -3,7 +3,14 @@
 	import Select from 'svelte-select';
 
 	// Import stores
-	import { map, selectedFormat, filteredDirectory, selectedOutlet, popup } from '$lib/stores.js';
+	import {
+		map,
+		selectedFormat,
+		directoryData,
+		filteredDirectory,
+		selectedOutlet,
+		popup
+	} from '$lib/stores.js';
 
 	// List of formats for dropdown menu
 	$: formatList = [
@@ -16,51 +23,28 @@
 	];
 
 	// Selected values in dropdown remain in place even after going to another panel
-	let value;
-	let justValue;
+	let value = $selectedFormat;
 
+	// Text above filter dropdown
 	let formatHeader;
 	$: if ($selectedFormat) {
 		if (formatList.length > 1) {
-			formatHeader = `Search from <span style="color: var(--cerulean);">${formatList.length} formats</span>`;
+			formatHeader = `Search from ${formatList.length} formats`;
 		} else if (formatList.length === 1) {
-			formatHeader = 'no additional formats available';
+			formatHeader = 'Clear the selection to choose another format';
 		}
 	} else {
 		formatHeader =
-			formatList.length > 1
-				? `Search from ${formatList.length} formats`
-				: `Search from ${formatList.length} format`;
+			// formatList.length > 1
+			// 	? `Search from ${formatList.length} formats`
+			// 	: `Search from ${formatList.length} format`;
+			`Search by format <span style="font-weight: 400;">(${formatList.length} total)</span>`;
 	}
 
-	// Clear $selectedFormat values when clear button is selected
-	function handleClear() {
-		if ($selectedFormat.length > 1) {
-			if (value === undefined) {
-				$selectedFormat = undefined;
-			} else {
-				$selectedFormat = justValue;
-			}
-		} else {
-			$selectedFormat = undefined;
-		}
-	}
-
-	// Clear any selected filter values when an outlet has been selected (in search box)
-	$: if ($selectedFormat === undefined) {
-		value = undefined; // Clears selected value in dropdown
-	}
-
-	// Reset markers when filter value has been selected (and $selectedOutlet is undefined)
-	$: if ($selectedOutlet === undefined) {
-		$map.setPaintProperty('outlet-layer', 'circle-opacity', 1);
-		$map.setFilter('outlet-search-layer', ['in', 'Media Outlet', '']);
-	}
-
-	// Retain filter selections when clicking away to other tabs and returning to filters
-	$: if ($selectedFormat && value === undefined) {
-		justValue = $selectedFormat;
-		value = justValue;
+	// Clear/reset selected filter when outlet is selected
+	$: if ($selectedOutlet) {
+		value ? (value = undefined) : null; // clear selected value in filter when outlet is selected
+		$filteredDirectory = $directoryData; // reset filter options
 	}
 </script>
 
@@ -71,18 +55,22 @@
 	<Select
 		id="format-search"
 		items={formatList}
-		placeholder="Select format"
-		multiple
-		closeListOnChange={false}
+		placeholder="Select primary format"
 		bind:value
-		bind:justValue
-		on:change={() => {
+		on:focus={() => {
 			$selectedOutlet ? ($selectedOutlet = undefined) : null;
-			$selectedFormat = value.map((d) => d.value);
 			$popup?.remove();
+			$map.setPaintProperty('outlet-layer', 'circle-opacity', 1);
+			$map.setFilter('outlet-search-layer', ['in', 'Media Outlet', '']);
 		}}
-		on:clear={handleClear}
-		on:clear={() => $popup?.remove()}
+		on:change={() => {
+			$selectedFormat = value.value;
+		}}
+		on:clear={() => {
+			$popup?.remove();
+			$selectedFormat = undefined;
+			$filteredDirectory = $directoryData;
+		}}
 	/>
 </form>
 
@@ -92,12 +80,8 @@
 	}
 
 	.filter-name {
-		font-weight: 900;
-		text-transform: uppercase;
+		font-weight: 800;
+		/* text-transform: uppercase; */
 		font-size: 0.85rem;
-	}
-
-	.active {
-		color: var(--cerulean);
 	}
 </style>

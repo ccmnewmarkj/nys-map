@@ -3,7 +3,14 @@
 	import Select from 'svelte-select';
 
 	// Import stores
-	import { map, selectedLanguage, filteredDirectory, selectedOutlet, popup } from '$lib/stores.js';
+	import {
+		map,
+		selectedLanguage,
+		directoryData,
+		filteredDirectory,
+		selectedOutlet,
+		popup
+	} from '$lib/stores.js';
 
 	// List of formats for dropdown menu
 	$: languageList = [
@@ -16,70 +23,65 @@
 	];
 
 	// Selected values in dropdown remain in place even after going to another panel
-	let value;
-	let justValue;
+	let value = $selectedLanguage;
 
+	// Text above filter dropdown
 	let languageHeader;
 	$: if ($selectedLanguage) {
 		if (languageList.length > 1) {
-			languageHeader = `Search from <span style="color: var(--cerulean);">${languageList.length} languages</span>`;
+			languageHeader = `
+			Search by ${languageList.length - 1} more ${languageList.length - 1 > 1 ? 'languages' : 'language'}
+			<span style="display: block; font-weight: 400; font-size: 0.8rem; color: gray;">Searching by more than one language will show only outlets with content in all selected languages, not outlets in just one of the languages.</span>
+			`;
 		} else if (languageList.length === 1) {
-			languageHeader = 'no additional languages available';
+			languageHeader = 'No additional languages available';
 		}
 	} else {
 		languageHeader =
-			languageList.length > 1
-				? `Search from ${languageList.length} languages`
-				: `Search from ${languageList.length} language`;
+			// languageList.length > 1
+			// 	? `Search from ${languageList.length} languages`
+			// 	: `Search from ${languageList.length} language`;
+			`
+			Search by language <span style="font-weight: 400;">(${languageList.length} total)</span>
+			`;
 	}
 
-	// Clear $selectedLanguage values when clear button is selected
-	function handleClear() {
-		if ($selectedLanguage.length > 1) {
-			if (value === undefined) {
-				$selectedLanguage = undefined;
-			} else {
-				$selectedLanguage = value.map((d) => d.value);
-			}
-		} else {
-			$selectedLanguage = undefined;
-		}
-	}
-
-	// Clear any selected filter values when an outlet has been selected (in search box)
-	$: if ($selectedLanguage === undefined) {
-		value = undefined; // Clears selected value in dropdown
-	}
-
-	// Reset markers when filter value has been selected (and $selectedOutlet is undefined)
-	$: if ($selectedOutlet === undefined) {
-		$map.setPaintProperty('outlet-layer', 'circle-opacity', 1);
-		$map.setFilter('outlet-search-layer', ['in', 'Media Outlet', '']);
-	}
-
-	// Retain filter selections when clicking away to other tabs and returning to filters
-	$: if ($selectedLanguage && value === undefined) {
-		justValue = $selectedLanguage;
-		value = justValue;
+	// Clear/reset selected filter when outlet is selected
+	$: if ($selectedOutlet) {
+		value ? (value = undefined) : null; // clear selected value in filter when outlet is selected
+		$filteredDirectory = $directoryData; // reset filter options
 	}
 </script>
 
 <form>
-	<label for="language-search" class="filter-name">{@html languageHeader}</label>
+	<label for="language-search" class="filter-name"
+		><span class:active={$selectedLanguage}>{@html languageHeader}</span></label
+	>
 	<Select
 		id="language-search"
 		items={languageList}
 		placeholder="Select language"
 		multiple
-		closeListOnChange={false}
+		clearable={false}
 		bind:value
-		on:change={() => {
+		on:focus={() => {
 			$selectedOutlet ? ($selectedOutlet = undefined) : null;
-			$selectedLanguage = value.map((d) => d.value);
 			$popup?.remove();
+			$map.setPaintProperty('outlet-layer', 'circle-opacity', 1);
+			$map.setFilter('outlet-search-layer', ['in', 'Media Outlet', '']);
 		}}
-		on:clear={handleClear}
-		on:clear={() => $popup?.remove()}
+		on:change={() => {
+			$selectedLanguage = value.map((d) => d.value);
+		}}
+		on:clear={() => {
+			$popup?.remove();
+			if (value === undefined) {
+				$selectedLanguage = undefined;
+				$filteredDirectory = $directoryData;
+			} else {
+				$selectedLanguage = value.map((d) => d.value);
+			}
+		}}
 	/>
 </form>
 
@@ -89,8 +91,8 @@
 	}
 
 	.filter-name {
-		font-weight: 900;
-		text-transform: uppercase;
+		font-weight: 800;
+		/* text-transform: uppercase; */
 		font-size: 0.85rem;
 	}
 </style>
