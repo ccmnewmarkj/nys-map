@@ -6,21 +6,35 @@
 	import {
 		map,
 		selectedFormat,
+		selectedCommunity,
+		selectedLanguage,
 		directoryData,
 		filteredDirectory,
 		selectedOutlet,
 		popup
 	} from '$lib/stores.js';
 
+	let formatList;
 	// List of formats for dropdown menu
-	$: formatList = [
-		...new Set(
-			$filteredDirectory.features
-				?.map((d) => d.properties['Primary Format'])
-				?.flatMap((d) => d)
-				.sort()
-		)
-	];
+	$: if (!$selectedCommunity && !$selectedLanguage) {
+		formatList = [
+			...new Set(
+				$directoryData.features
+					?.map((d) => d.properties['Primary Format'])
+					?.flatMap((d) => d)
+					.sort()
+			)
+		];
+	} else {
+		formatList = [
+			...new Set(
+				$filteredDirectory.features
+					?.map((d) => d.properties['Primary Format'])
+					?.flatMap((d) => d)
+					.sort()
+			)
+		];
+	}
 
 	// Selected values in dropdown remain in place even after going to another panel
 	let value = $selectedFormat;
