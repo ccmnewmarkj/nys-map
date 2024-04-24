@@ -30,7 +30,7 @@
 
 <header>
 	<h1>NYS Media Map</h1>
-	<p>
+	<p style="font-size: 0.85rem;">
 		A project of the <a
 			href="https://www.journalism.cuny.edu/centers/center-community-media/advertising-boost-initiative/"
 			>Advertising Boost Initiative</a
@@ -52,7 +52,7 @@
 	</main>
 {:else if $outletPanelVisible}
 	<main class="panel-body" in:fade>
-		<OutletPanel />
+		<OutletPanel {outletCount} />
 	</main>
 {/if}
 
@@ -68,10 +68,12 @@
 <style>
 	.panel-body {
 		padding: 1rem;
+		max-height: calc(100vh - 4rem);
 		max-height: calc(100svh - 4rem);
 		display: flex;
 		flex-direction: column;
 		overflow: auto;
+		scrollbar-gutter: stable;
 	}
 
 	.close-button {

@@ -32,6 +32,7 @@
 	}
 </script>
 
+<span class="toggle-text">Show {polygonType}</span>
 <label for={polygonType} class="toggle">
 	<input
 		type="checkbox"
@@ -47,14 +48,14 @@
 	/>
 	<span class="switch"></span>
 </label>
-<span class="toggle-text">Show {polygonType}</span>
 
 <style>
 	.toggle-text {
-		margin-left: 0.2rem;
+		margin-right: 0.2rem;
 		text-transform: uppercase;
 		font-size: 0.8rem;
 		font-weight: 800;
+		font-family: 'Roboto Condensed', 'sans-serif;';
 	}
 
 	input[type='checkbox'] {
@@ -100,6 +101,7 @@
 
 	input:checked + .switch {
 		background-color: var(--bg);
+		background-color: rgba(155, 176, 193, 1);
 	}
 
 	input:checked + .switch:before {
