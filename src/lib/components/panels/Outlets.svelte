@@ -12,6 +12,8 @@
 	// Import icon components
 	import OpenLink from '$lib/components/icons/OpenLink.svelte';
 	import MapPin from '$lib/components/icons/MapPin.svelte';
+	import LeftArrow from '$lib/components/icons/LeftArrow.svelte';
+	import RightArrow from '$lib/components/icons/RightArrow.svelte';
 
 	export let outletCount;
 
@@ -50,11 +52,11 @@
 	}
 
 	// Card border color based on format
-	const newspaperFormat = '250, 112, 112';
-	const radioFormat = '64, 162, 227';
-	const magazineFormat = '115, 144, 114';
-	const digitalFormat = '255, 201, 74';
-	const otherFormat = '179, 200, 207';
+	const newspaperFormat = '250, 112, 112',
+		radioFormat = '64, 162, 227',
+		magazineFormat = '115, 144, 114',
+		digitalFormat = '255, 201, 74',
+		otherFormat = '179, 200, 207';
 
 	let cardShadow;
 
@@ -199,11 +201,14 @@
 			disabled={currentPage === 0}
 			class:disabled={currentPage === 0}
 		>
-			&lt;
+			<LeftArrow />
+			<!-- &lt; -->
 		</button>
 
 		<!-- # of # -->
-		<span>{currentPage + 1} of {Math.ceil($filteredDirectory?.features.length / itemsPerPage)}</span
+		<span
+			><strong>{currentPage + 1}</strong> of
+			<strong>{Math.ceil($filteredDirectory?.features.length / itemsPerPage)}</strong></span
 		>
 
 		<!-- next button -->
@@ -218,7 +223,8 @@
 			class:disabled={currentPage ===
 				Math.ceil($filteredDirectory?.features.length / itemsPerPage) - 1}
 		>
-			&gt;
+			<RightArrow />
+			<!--&gt;-->
 		</button>
 	</div>
 </section>
@@ -333,17 +339,17 @@
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		margin-top: 0.5rem;
+		font-family: 'Roboto Condensed', sans-serif;
 	}
 
-	.page-btns-container button {
+	/* .page-btns-container button {
 		background-color: rgba(81, 130, 155, 0.25);
 		border-radius: 50%;
 		color: var(--text-color-black);
 		font-size: 0.75rem;
 		padding: 0.25rem 0.5rem;
 		margin: 0 0.75rem;
-	}
+	} */
 
 	.page-btns-container button.disabled {
 		/* cursor: default;
