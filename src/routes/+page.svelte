@@ -52,25 +52,25 @@
 		filteredDirectory.set($directoryData);
 
 		// Check for duplicate coordinates
-		//$directoryData.features.forEach((d) => {
-		// longitudeValue = d.properties.Longitude;
-		// if (
-		// 	$directoryData.features
-		// 		.filter((e) => e.properties['Media Outlet'] !== d.properties['Media Outlet'])
-		// 		.filter((e) => e.properties.Longitude)
-		// 		.filter((e) => e.properties.Longitude === longitudeValue).length > 0
-		// ) {
-		// 	// Add column indicating duplicate coordinates
-		// 	d.properties.duplicateCoords = true;
-		// 	// Nudge coordinates apart
-		// 	(d.geometry.coordinates[0] = d.geometry.coordinates[0] + (Math.random() - 0.5) * 0.002),
-		// 		(d.geometry.coordinates[1] = d.geometry.coordinates[1] + (Math.random() - 0.5) * 0.002);
-		// 	// Add loc approx column
-		// 	d.properties['Location approximate'] = 'Location approximate';
-		// } else {
-		// 	d.properties.duplicateCoords = false;
-		// }
-		//});
+		$directoryData.features.forEach((d) => {
+			longitudeValue = d.properties.Longitude;
+			if (
+				$directoryData.features
+					.filter((e) => e.properties['Media Outlet'] !== d.properties['Media Outlet'])
+					.filter((e) => e.properties.Longitude)
+					.filter((e) => e.properties.Longitude === longitudeValue).length > 0
+			) {
+				// Add column indicating duplicate coordinates
+				d.properties.duplicateCoords = true;
+				// Nudge coordinates apart
+				(d.geometry.coordinates[0] = d.geometry.coordinates[0] + (Math.random() - 0.5) * 0.002),
+					(d.geometry.coordinates[1] = d.geometry.coordinates[1] + (Math.random() - 0.5) * 0.002);
+				// Add loc approx column
+				//d.properties['Location approximate'] = 'Location approximate';
+			} else {
+				d.properties.duplicateCoords = false;
+			}
+		});
 
 		// COUNTIES
 		// Add centroid point for polygon labels
@@ -125,6 +125,7 @@
 	.sidebar-content {
 		position: relative;
 		max-width: 375px;
+		max-height: calc(100vh - 4rem);
 		max-height: calc(100svh - 4rem);
 		border-radius: 5px;
 		background-color: rgba(255, 255, 255, 0.85);
