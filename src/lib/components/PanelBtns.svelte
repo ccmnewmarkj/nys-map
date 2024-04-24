@@ -74,7 +74,6 @@
 
 	button {
 		background-color: var(--light-gray);
-		font-family: 'Roboto Condensed', sans-serif;
 		font-size: 1rem;
 		font-weight: 600;
 		text-transform: uppercase;
