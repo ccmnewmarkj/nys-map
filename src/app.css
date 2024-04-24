@@ -6,6 +6,11 @@
   --blue-gray: #51829b;
   --yellow-orange: #f8b500;
   --light-yellow: rgba(254, 241, 188, 0.25);
+  --white-blue: #f8f9fa;
+  --silver: #dee2e6;
+  --gray: #999999;
+  --alice-blue: rgba(216, 224, 232, 1);
+  --alice-blue-light: rgba(216, 224, 232, 0.4);
 }
 
 /* Source: https://gwfh.mranftl.com/fonts */
@@ -74,6 +79,15 @@
   src: url('/fonts/playfair-display-v37-latin-700.woff2') format('woff2'); 
 }
 
+/* roboto-condensed-regular - latin */
+@font-face {
+  font-display: swap;
+  font-family: 'Roboto Condensed';
+  font-style: normal;
+  font-weight: 400;
+  src: url('../fonts/roboto-condensed-v27-latin-regular.woff2') format('woff2');
+}
+
 *,
 *::before,
 *::after {
@@ -102,6 +116,7 @@ h1 {
 }
 
 h2 {
+  font-family: "Playfair Display";
   font-size: 1.3rem;
   font-weight: 600;
   margin-top: 1rem;
@@ -136,6 +151,7 @@ li {
   padding: 10px;
   font-size: 0.8rem;
   background-color: var(--light-yellow);
+  background-color: var(--alice-blue-light);
 }
 
 /* Mapbox zoom controls */
@@ -259,7 +275,7 @@ li {
   font-size: 0.75rem;
   text-transform: uppercase;
   line-height: 1;
-  color: #999999;
+  color: var(--gray);
 }
 
 .popup-category-value {
@@ -293,12 +309,35 @@ li {
   border-radius: 0 0 3px 3px;
 }
 
+/* remove geocoder from mobile */
+/* @media screen and (max-width: 480px) {
+  .mapboxgl-ctrl-geocoder {
+    display: none;
+  }
+}
+
+@media screen and (max-device-width: 640px) and (orientation: landscape) {
+  .mapboxgl-ctrl-geocoder {
+    display: none;
+  }
+} */
+
+
 hr {
   border: 0;
   height: 0;
   border-top: 0.5px solid rgba(0, 0, 0, 0.1);
   margin-top: 0.25rem;
   margin-bottom: 0.25rem;
+}
+
+.outlets-filter-msg {
+  padding: 0 4px; 
+  border-radius: 2px; 
+  /* background-color: var(--light-yellow);  */
+  background-color: var(--white-blue);
+  border: 1px solid rgba(248, 181, 0, 0.45);
+  display: inline-block;
 }
 
 /* .url-founded {
