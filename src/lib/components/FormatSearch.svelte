@@ -14,8 +14,9 @@
 		popup
 	} from '$lib/stores.js';
 
+	// List of formats for dropdown menu:
+	// Show all options when no other filter is applied
 	let formatList;
-	// List of formats for dropdown menu
 	$: if (!$selectedCommunity && !$selectedLanguage) {
 		formatList = [
 			...new Set(
