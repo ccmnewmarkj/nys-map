@@ -2,6 +2,7 @@
 	// Import components
 	import ResetMap from '$lib/components/ResetBtn.svelte';
 	import PolygonToggle from '$lib/components/PolygonToggle.svelte';
+	import Legend from '$lib/components/MapLegend.svelte';
 
 	// Import icon components
 	import NYSIcon from '$lib/components/icons/NYS.svelte';
@@ -12,6 +13,7 @@
 	// Packages
 	import mapboxgl from 'mapbox-gl';
 	import '../../../node_modules/mapbox-gl/dist/mapbox-gl.css';
+	import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
 
 	// Import stores
 	import {
@@ -53,11 +55,12 @@
 	let movedCenterLng;
 
 	// Color by format
-	const newspaperFormat = '250, 112, 112';
-	const radioFormat = '64, 162, 227';
-	const magazineFormat = '115, 144, 114';
-	const digitalFormat = '255, 201, 74';
-	const otherFormat = '179, 200, 207';
+	const newspaperFormat = '250, 112, 112',
+		radioFormat = '64, 162, 227',
+		magazineFormat = '115, 144, 114',
+		digitalFormat = '255, 201, 74',
+		digitalFormatText = '244, 194, 81',
+		otherFormat = '179, 200, 207';
 
 	onMount(() => {
 		// Set up map via store
@@ -75,6 +78,24 @@
 
 		// Zoom controls
 		$map.addControl(new mapboxgl.NavigationControl({ showCompass: false }), 'bottom-right');
+
+		// Geocoder
+		const geocoder = new MapboxGeocoder({
+			accessToken: mapboxgl.accessToken,
+			placeholder: 'Search by NYS address',
+			mapboxgl: mapboxgl,
+			// marker: true,
+			marker: {
+				color: '#ff8200' // '#3189CB'
+			},
+			zoom: 10,
+			countries: 'us',
+			bbox: [-79.76, 40.48, -71.79, 45.02]
+		});
+
+		// Add geocoder to HTML element for tabbing order
+		let geocoderEl = document.querySelector('.geocoder-container');
+		geocoderEl.appendChild(geocoder.onAdd($map));
 
 		$map.on('load', () => {
 			///////////////////////////
@@ -189,7 +210,7 @@
 					'line-width': {
 						base: 0,
 						stops: [
-							[5, 0.75],
+							[5, 0.5],
 							[6, 1],
 							[8, 1.25]
 						]
@@ -268,10 +289,10 @@
 						base: 1.75,
 						stops: [
 							[8, 6],
-							[15, 24]
+							[15, 18]
 						]
 					},
-					'circle-stroke-width': 1.25,
+					'circle-stroke-width': 1.5,
 					'circle-stroke-color': 'white',
 					'circle-color': [
 						'match',
@@ -320,8 +341,8 @@
 					'circle-radius': {
 						base: 1.75,
 						stops: [
-							[8, 8],
-							[15, 30]
+							[8, 7],
+							[15, 24]
 						]
 					},
 					//'circle-radius': 8,
@@ -378,27 +399,26 @@
 				}
 
 				// Icon source: https://iconoir.com/
-				const arrowUpRightIcon = `
+				const openLink = `
 				<svg
-					width="20px"
-					height="20px"
+					width="14px"
+					height="14px"
 					viewBox="0 0 24 24"
-					stroke-width="1.75"
+					stroke-width="2.1"
 					fill="none"
 					xmlns="http://www.w3.org/2000/svg"
 					color="#000000"
 					><path
-						d="M9.17137 14.8284L14.8282 9.17152M14.8282 9.17152H9.87848M14.8282 9.17152V14.1213"
+						d="M21 3L15 3M21 3L12 12M21 3V9"
 						stroke="rgba(${headerBg}, 1)"
-						stroke-width="1.75"
+						stroke-width="2.1"
 						stroke-linecap="round"
 						stroke-linejoin="round"
 					></path><path
-						d="M21 3.6V20.4C21 20.7314 20.7314 21 20.4 21H3.6C3.26863 21 3 20.7314 3 20.4V3.6C3 3.26863 3.26863 3 3.6 3H20.4C20.7314 3 21 3.26863 21 3.6Z"
+						d="M21 13V19C21 20.1046 20.1046 21 19 21H5C3.89543 21 3 20.1046 3 19V5C3 3.89543 3.89543 3 5 3H11"
 						stroke="rgba(${headerBg}, 1)"
-						stroke-width="1.75"
+						stroke-width="2.1"
 						stroke-linecap="round"
-						stroke-linejoin="round"
 					></path></svg
 				>
 				`;
@@ -449,7 +469,7 @@
 					JSON.parse(e.features[0].properties['Language']).length > 1 ? 'Languages' : 'Language';
 
 				let linkValue = e.features[0].properties['Website']
-					? `<a href="${e.features[0].properties['Website']}" target="_blank" class="popup-link-btn" style="color: rgba(${headerBg}, 1); border: 1px solid rgba(${headerBg}, 0.5);">Visit Website ${arrowUpRightIcon}</a>`
+					? `<a href="${e.features[0].properties['Website']}" target="_blank" class="popup-link-btn" style="color: rgba(${e.features[0].properties['Primary Format'] === 'Digital only' ? digitalFormatText : headerBg}, 1); border: 1px solid rgba(${e.features[0].properties['Primary Format'] === 'Digital only' ? digitalFormatText : headerBg}, 1);">Visit Website ${openLink}</a>`
 					: '';
 
 				let locationNotes = e.features[0].properties['Location Status']
@@ -542,35 +562,68 @@
 	}
 </script>
 
+<!-- Geocoder CSS -->
+<svelte:head>
+	<link
+		rel="stylesheet"
+		href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.css"
+		type="text/css"
+	/>
+</svelte:head>
+
 <!-- Map -->
 <div class="map-container">
 	<div class="map" bind:this={mapContainer} />
 </div>
 
-<!-- Toggle filters -->
-<div class="toggle-container">
-	<div>
-		<PolygonToggle
-			bind:checked={showCounties}
-			polygonType="Counties"
-			--bg="rgba(155, 176, 193, 1)"
-		/>
-	</div>
-	<div>
-		<PolygonToggle bind:checked={showRegions} polygonType="Regions" --bg="var(--cerulean)" />
-	</div>
-</div>
+<!-- Container for map elements -->
+<section class="map-elements-container">
+	<!-- Geocoder -->
+	<div class="geocoder-container" tabindex="0" role="searchbox" aria-label="search" />
 
-<!-- Reset button -->
-<div class="btn-container">
-	{#if initialCenterLng?.toFixed(1) !== movedCenterLng?.toFixed(1)}
-		<div class="btn-container">
-			<div class="reset-container" transition:fade={{ duration: 100 }}>
-				<ResetMap><NYSIcon /></ResetMap>
-			</div>
+	<!-- Toggle polygon filters -->
+	<div class="toggle-container">
+		<div>
+			<PolygonToggle
+				bind:checked={showCounties}
+				polygonType="Counties"
+				--bg="rgba(155, 176, 193, 1)"
+			/>
+		</div>
+		<div>
+			<PolygonToggle bind:checked={showRegions} polygonType="Regions" --bg="var(--cerulean)" />
+		</div>
+	</div>
+	<hr />
+	<!-- Legend -->
+	<div class="legend-container">
+		<Legend />
+	</div>
+
+	<!-- Reset highlighted outlet -->
+	{#if $selectedOutlet}
+		<hr />
+		<div class="highlight-reset-container" transition:fade={{ duration: 100 }}>
+			<button
+				style="font-family: 'Roboto Condensed', sans-serif; font-weight: 900; display: flex; gap: 5px;"
+				on:click|stopPropagation={() => {
+					$selectedOutlet = undefined;
+					$popup?.remove();
+					$map.setPaintProperty('outlet-layer', 'circle-opacity', 1);
+					$map.setFilter('outlet-search-layer', ['in', 'Media Outlet', '']);
+				}}><span style="color: red; font-weight: 800;">✕</span>Clear outlet</button
+			>
 		</div>
 	{/if}
-</div>
+</section>
+
+<!-- Reset button -->
+{#if initialCenterLng?.toFixed(1) !== movedCenterLng?.toFixed(1)}
+	<div class="reset-container" transition:fade={{ duration: 100 }}>
+		RESET
+		<ResetMap><NYSIcon /></ResetMap>
+	</div>
+{/if}
 
 <style>
 	.map {
@@ -580,21 +633,68 @@
 		bottom: 0;
 	}
 
-	/* reset button */
-	.btn-container {
+	.map-elements-container {
 		position: absolute;
-		bottom: 50px;
-		right: 5px;
-		z-index: 1;
-	}
-
-	.toggle-container {
-		position: absolute;
-		top: 25px;
 		right: 10px;
+		top: 1rem;
+		z-index: 1;
 		display: flex;
 		flex-direction: column;
-		align-items: flex-start;
-		gap: 3px;
+		align-items: flex-end;
+	}
+
+	hr {
+		border-top: 0.5px solid rgba(0, 0, 0, 0.5);
+		width: 125px;
+	}
+
+	.geocoder-container {
+		z-index: 1;
+		top: 10px;
+		right: 10px;
+		margin-bottom: 0.75rem;
+	}
+
+	/* @media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
+    .geocoder-container {
+      top: 3.25rem;
+      right: -5px;
+    }
+  } */
+
+	.toggle-container {
+		margin-top: 0.75rem;
+		margin-bottom: 0.25rem;
+		display: flex;
+		flex-direction: column;
+		align-items: flex-end;
+		row-gap: 3px;
+	}
+
+	.legend-container {
+		margin-top: 0.25rem;
+	}
+
+	.highlight-reset-container {
+		margin-top: 0.75rem;
+		font-size: 12px;
+		background-color: rgba(249, 232, 151, 0.5);
+		border: 1px solid #fff455;
+		border-radius: 3px;
+		padding: 0px 2px;
+	}
+
+	/* reset button */
+	.reset-container {
+		position: absolute;
+		bottom: 100px;
+		right: 10px;
+		z-index: 1;
+		display: flex;
+		flex-direction: column;
+		align-items: flex-end;
+		font-size: 12px;
+		font-weight: 600;
+		gap: 1px;
 	}
 </style>

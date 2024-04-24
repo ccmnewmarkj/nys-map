@@ -20,6 +20,7 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"@mapbox/mapbox-gl-geocoder": "^5.0.2",
 		"@turf/centroid": "^6.5.0",
 		"airtable": "^0.12.2",
 		"mapbox-gl": "^3.2.0",
