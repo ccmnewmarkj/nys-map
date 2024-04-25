@@ -98,12 +98,14 @@
 	}
 </script>
 
-<section>
+<section class="intro">
 	<div class="header">
 		<h2 style="margin-top: 0;">NYS Media Directory</h2>
 		<p style="line-height: 1.4;">{@html filterMsg}</p>
 	</div>
+</section>
 
+<section class="cards">
 	{#each paginatedDirectory as outlet}
 		<!-- Section for generating color based on format -->
 		<span style="display: none;">
@@ -192,7 +194,9 @@
 			</div>
 		</div>
 	{/each}
+</section>
 
+<section class="pages">
 	<div class="page-btns-container">
 		<!-- previous button -->
 		<button
@@ -234,7 +238,7 @@
 		border-radius: 1px;
 		color: var(--text-color-black);
 		font-size: 0.8rem;
-		margin-bottom: 0.5rem;
+		margin-bottom: 1rem;
 		padding: 0.25rem;
 	}
 
@@ -243,13 +247,13 @@
 		border: 1px solid #dee2e6;
 		border-radius: 3px;
 		margin-bottom: 1rem;
-
 		box-shadow: 1px 1px 3px 0px rgba(0, 0, 0, 0.1);
 	}
 
 	.outlet-name {
 		font-size: 1rem;
 		font-weight: 600;
+		font-family: 'Roboto Condensed', sans-serif;
 	}
 
 	.header-row,
@@ -257,7 +261,7 @@
 		display: flex;
 		justify-content: space-between;
 		align-items: baseline;
-		padding: 0.25rem 0.5rem 0.25rem;
+		padding: 0.5rem 0.5rem 0.25rem;
 	}
 
 	.header-row {
@@ -325,8 +329,7 @@
 		display: flex;
 		align-items: center;
 		gap: 3px;
-		/* font-family: 'Roboto Condensed', sans-serif; */
-		/* text-transform: uppercase; */
+		font-family: 'DM Sans', sans-serif;
 	}
 
 	.map-btn {

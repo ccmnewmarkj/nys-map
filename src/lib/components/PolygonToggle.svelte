@@ -33,7 +33,7 @@
 </script>
 
 <span class="toggle-text">Show {polygonType}</span>
-<label for={polygonType} class="toggle">
+<label for={polygonType} class="toggle" aria-label={`Toggle ${polygonType}`}>
 	<input
 		type="checkbox"
 		id={polygonType}

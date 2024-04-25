@@ -14,7 +14,7 @@
 	];
 </script>
 
-<section class="legend">
+<div class="legend">
 	{#each legendItems as item}
 		<div class="legend-item">
 			<span class="label">{item.label}</span>
@@ -25,25 +25,26 @@
 			>
 		</div>
 	{/each}
-</section>
+</div>
 
 <style>
-	section {
+	.legend {
 		padding: 5px 0 5px 5px;
 		width: 125px;
 		display: flex;
 		flex-direction: column;
-		justify-content: baseline;
 		align-items: flex-end;
 		row-gap: 2px;
 		font-family: 'Roboto Condensed', 'sans-serif;';
-		/* background-color: rgba(51, 51, 51, 0.05); */
+		font-size: 0.8rem;
 	}
+
 	.legend-item {
 		line-height: 1.15;
 	}
+
 	.bullet {
-		font-size: 1.15rem;
+		font-size: 1rem;
 		margin-left: 5px;
 		padding: 0 2px;
 	}

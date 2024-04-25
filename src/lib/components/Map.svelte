@@ -97,6 +97,10 @@
 		let geocoderEl = document.querySelector('.geocoder-container');
 		geocoderEl.appendChild(geocoder.onAdd($map));
 
+		// Add ID to geocoder
+		const inputElement = document.querySelector('input[class="mapboxgl-ctrl-geocoder--input"]');
+		inputElement.setAttribute('id', 'geocoder');
+
 		$map.on('load', () => {
 			///////////////////////////
 			// POLYGONS
@@ -572,9 +576,9 @@
 </svelte:head>
 
 <!-- Map -->
-<div class="map-container">
+<section class="map-container">
 	<div class="map" bind:this={mapContainer} />
-</div>
+</section>
 
 <!-- Container for map elements -->
 <section class="map-elements-container">

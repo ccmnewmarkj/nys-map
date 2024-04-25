@@ -44,11 +44,9 @@
 </script>
 
 <!-- Intro -->
-<p>Apply one or more of the three filters to narrow down your search.</p>
-
-<!-- Notes -->
 <section>
-	<details>
+	<p>Apply one or more of the three filters to narrow down your search.</p>
+	<details style="margin-top: 0.5rem;">
 		<summary
 			><p>
 				Selecting an option from a filter will modify all three filters to show only the remaining
@@ -72,30 +70,15 @@
 			</ul>
 		</div>
 	</details>
-
-	<!-- <details>
-		<summary
-			><p>
-				Selecting multiple options from a filter will return only outlets for which all selected
-				values apply.
-			</p>
-		</summary>
-		<div class="content">
-			<p>
-				For example, if you select both "Spanish" and "English" from the language dropdown, you will
-				only get outlets that have content in both languages, not outlets in just Spanish or
-				English.
-			</p>
-		</div>
-	</details> -->
 </section>
 
 <!-- Filters -->
-<section>
+<section style="margin-top: 0.5rem;">
 	<!-- Filter by format -->
 	<div class="filter">
 		<FormatSearch />
 	</div>
+
 	<!-- Filter by community -->
 	<div class="filter">
 		<CommunitySearch />
@@ -106,12 +89,12 @@
 		<LanguageSearch />
 	</div>
 </section>
+<hr />
 
 <!-- Outlet search -->
-
-<div class="filter">
+<section class="filter">
 	<OutletSearch />
-</div>
+</section>
 
 <style>
 	p:not(:first-of-type) {
@@ -122,8 +105,11 @@
 		margin-top: 1rem;
 	}
 
-	details:first-child {
-		margin-top: 0.5rem;
+	hr {
+		margin-top: 1.5rem;
+		width: 90%;
+		margin-left: auto;
+		margin-right: auto;
 	}
 
 	details > summary {
