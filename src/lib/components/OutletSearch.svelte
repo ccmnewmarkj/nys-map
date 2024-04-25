@@ -125,6 +125,8 @@
 		padding-left: 2.2rem;
 		position: relative;
 		cursor: pointer;
+		font-family: 'Roboto Condensed', sans-serif;
+		text-transform: uppercase;
 	}
 
 	details[open] > summary:before {
