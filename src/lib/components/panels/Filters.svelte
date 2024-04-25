@@ -114,10 +114,7 @@
 
 	details > summary {
 		font-size: 0.85rem;
-		/* background-color: var(--white-blue); */
 		background-color: var(--alice-blue-light);
-		/* border-top: 1px solid var(--silver); */
-		/* border-bottom: 1px solid var(--alice-blue); */
 		cursor: pointer;
 		padding: 0.25rem 0rem 0.25rem 0.5rem;
 	}
@@ -144,37 +141,4 @@
 		border-bottom: 1px solid var(--alice-blue);
 		font-size: 0.8rem;
 	}
-
-	/* details > summary {
-		padding: 0.5rem;
-		display: block;
-		background: var(--light-yellow);
-		padding-left: 1.6rem;
-		position: relative;
-		cursor: pointer;
-	}
-
-	details[open] > summary:before {
-		transform: rotate(90deg);
-	} */
-
-	/* arrow */
-	/* details > summary:before {
-		content: '';
-		border-width: 5.5px;
-		border-style: solid;
-		border-color: transparent transparent transparent var(--yellow-orange);
-		position: absolute;
-		top: 0.65rem;
-		left: 0.75rem;
-		transform: rotate(0);
-		transform-origin: 0.2rem 50%;
-		transition: 0.25s transform ease;
-	}
-
-	details > .content {
-		font-size: 0.85rem;
-		padding: 0.25rem 0.75rem;
-		background: #f6f5f2;
-	} */
 </style>

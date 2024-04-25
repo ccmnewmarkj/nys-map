@@ -66,16 +66,6 @@
 >
 
 <style>
-	.panel-body {
-		padding: 1rem;
-		max-height: calc(100vh - 4rem);
-		max-height: calc(100svh - 4rem);
-		display: flex;
-		flex-direction: column;
-		overflow: auto;
-		scrollbar-gutter: stable;
-	}
-
 	.close-button {
 		position: absolute;
 		top: 6px;
@@ -83,7 +73,7 @@
 		background-color: transparent;
 		border: 0;
 		cursor: pointer;
-		z-index: 100;
+		z-index: 1;
 	}
 
 	header {
@@ -107,5 +97,15 @@
 		background: linear-gradient(180deg, rgba(55, 140, 231, 0.5) 10%, rgb(255, 241, 188) 90%);
 
 		background: linear-gradient(180deg, rgba(59, 188, 241, 0.5) 10%, rgb(255, 241, 188) 90%);
+	}
+
+	.panel-body {
+		padding: 1rem;
+		max-height: calc(100vh - 4rem);
+		max-height: calc(100svh - 4rem);
+		display: flex;
+		flex-direction: column;
+		overflow: auto;
+		scrollbar-gutter: stable;
 	}
 </style>

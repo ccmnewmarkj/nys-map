@@ -84,6 +84,7 @@
 		gap: 5px;
 		flex: 1; /* make buttons equal width */
 	}
+
 	button:last-child {
 		flex: 1.2; /* make the last button slightly larger */
 	}
