@@ -56,6 +56,11 @@
 		value ? (value = undefined) : null; // clear selected value in filter when outlet is selected
 		$filteredDirectory = $directoryData; // reset filter options
 	}
+
+	// For opened dropdown menu to appear on top of other elements
+	let floatingConfig = {
+		strategy: 'fixed'
+	};
 </script>
 
 <form>
@@ -63,6 +68,8 @@
 		<span class:active={$selectedCommunity}>{@html communityHeader}</span>
 	</label>
 	<Select
+		{floatingConfig}
+		--list-position="fixed"
 		id="community-search"
 		items={communityList}
 		placeholder="Select community"
