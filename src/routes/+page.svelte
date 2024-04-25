@@ -14,7 +14,7 @@
 
 	// Import data for state regions
 	import regions from '$lib/data/Regional_Economic_Development_Councils.json';
-	import counties from '$lib/data/Counties_Shoreline.json';
+	import counties from '$lib/data/Counties_Shoreline-simplified.json';
 
 	// Import directory data
 	export let data; // Airtable directory data
