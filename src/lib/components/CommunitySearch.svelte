@@ -29,15 +29,19 @@
 	let communityHeader;
 	$: if ($selectedCommunity) {
 		if (communityList.length > 1) {
-			communityHeader =
-				// Search from <span style="color: var(--cerulean);">${communityList.length} communities</span>
-				// If you search using more than one community, you'll only see results from outlets that have content in all of the selected communities.
-				`
+			if (communityList.length - value.length === 0) {
+				communityHeader = `<span style="color: var(--gray);">No additional communities available</span>`;
+			} else {
+				communityHeader =
+					// Search from <span style="color: var(--cerulean);">${communityList.length} communities</span>
+					// If you search using more than one community, you'll only see results from outlets that have content in all of the selected communities.
+					`
 			Search by ${communityList.length - 1} more ${communityList.length - 1 > 1 ? 'communities' : 'community'}
-			<span style="display: block; font-weight: 400; font-size: 0.8rem; color: gray;">Searching by more than one community will show outlets with content for all selected communities, not outlets that serve just one of the communities.</span>	
+			<span style="font-family: 'DM Sans', sans-serif; text-transform: none; display: block; font-weight: 400; font-size: 0.8rem; color: var(--gray);">Searching by more than one community will show outlets with content for all selected communities, not outlets that serve just one of the communities.</span>	
 			`;
+			}
 		} else if (communityList.length === 1) {
-			communityHeader = `<span style="color: gray;">No additional communities available</span>`;
+			communityHeader = `<span style="color: var(--gray);">No additional communities available</span>`;
 		}
 	} else {
 		communityHeader =
@@ -88,7 +92,8 @@
 
 <style>
 	label {
-		font-size: 0.8rem;
+		font-family: 'Roboto Condensed', sans-serif;
+		text-transform: uppercase;
 	}
 
 	.filter-name {

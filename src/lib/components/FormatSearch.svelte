@@ -46,7 +46,7 @@
 		if (formatList.length > 1) {
 			formatHeader = `Search from ${formatList.length} formats`;
 		} else if (formatList.length === 1) {
-			formatHeader = 'Clear the selection to choose another format';
+			formatHeader = `<span style="font-family: 'DM Sans', sans-serif; text-transform: none; display: block; font-weight: 400; font-size: 0.8rem; color: var(--gray);">Clear the selection to choose another format</span>`;
 		}
 	} else {
 		formatHeader =
@@ -91,7 +91,8 @@
 
 <style>
 	label {
-		font-size: 0.8rem;
+		font-family: 'Roboto Condensed', sans-serif;
+		text-transform: uppercase;
 	}
 
 	.filter-name {

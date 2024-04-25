@@ -29,12 +29,16 @@
 	let languageHeader;
 	$: if ($selectedLanguage) {
 		if (languageList.length > 1) {
-			languageHeader = `
+			if (languageList.length - value.length === 0) {
+				languageHeader = `<span style="color: var(--gray);">No additional languages available</span>`;
+			} else {
+				languageHeader = `
 			Search by ${languageList.length - 1} more ${languageList.length - 1 > 1 ? 'languages' : 'language'}
-			<span style="display: block; font-weight: 400; font-size: 0.8rem; color: gray;">Searching by more than one language will show only outlets with content in all selected languages, not outlets in just one of the languages.</span>
+			<span style="font-family: 'DM Sans', sans-serif; text-transform: none; display: block; font-weight: 400; font-size: 0.8rem; color: var(--gray);">Searching by more than one language will show only outlets with content in all selected languages, not outlets in just one of the languages.</span>
 			`;
+			}
 		} else if (languageList.length === 1) {
-			languageHeader = 'No additional languages available';
+			languageHeader = `<span style="color: var(--gray);">No additional languages available</span>`;
 		}
 	} else {
 		languageHeader =
@@ -87,7 +91,8 @@
 
 <style>
 	label {
-		font-size: 0.8rem;
+		font-family: 'Roboto Condensed', sans-serif;
+		text-transform: uppercase;
 	}
 
 	.filter-name {
