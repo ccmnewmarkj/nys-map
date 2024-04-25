@@ -386,21 +386,14 @@
 					coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
 				}
 
-				//selectedOutlet.set(e.features[0].properties['Media Outlet']);
-
 				// Background of header section based on format
-				let headerBg;
-				if (e.features[0].properties['Primary Format'] === 'Newspaper') {
-					headerBg = newspaperFormat;
-				} else if (e.features[0].properties['Primary Format'] === 'Radio') {
-					headerBg = radioFormat;
-				} else if (e.features[0].properties['Primary Format'] === 'Magazine') {
-					headerBg = magazineFormat;
-				} else if (e.features[0].properties['Primary Format'] === 'Digital only') {
-					headerBg = digitalFormat;
-				} else {
-					headerBg = otherFormat;
-				}
+				let headerBg =
+					{
+						Newspaper: newspaperFormat,
+						Radio: radioFormat,
+						Magazine: magazineFormat,
+						'Digital only': digitalFormat
+					}[e.features[0].properties['Primary Format']] || otherFormat;
 
 				// Icon source: https://iconoir.com/
 				const openLink = `
