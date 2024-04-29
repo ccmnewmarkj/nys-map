@@ -108,7 +108,7 @@
 <section class="cards">
 	{#each paginatedDirectory as outlet}
 		<!-- Section for generating color based on format -->
-		<span style="display: none;">
+		<!-- <span style="display: none;">
 			{#if outlet.properties['Primary Format']}
 				{(cardShadow =
 					{
@@ -118,13 +118,13 @@
 						'Digital only': digitalFormat
 					}[outlet.properties['Primary Format']] || otherFormat)}
 			{/if}
-		</span>
+		</span> -->
 		<!--
 			border: 1px solid rgba({cardShadow}, 0.5)"
 			background-color: rgba({cardShadow}, 0.2); 
 		-->
 		<div class="outlet-card">
-			<div class="header-row" style="border-bottom: 1px solid rgba({cardShadow}, 0.5)">
+			<div class="header-row" style="border-bottom: 1px solid #d1d1d1;">
 				<p class="outlet-name">{outlet.properties['Media Outlet']}</p>
 				<p class="location">
 					{#if outlet.properties['City']}
@@ -167,7 +167,7 @@
 					</p>
 				</div>
 			</div>
-			<hr />
+			<!-- <hr style="margin-top: 0;" /> -->
 			<div class="footer-row">
 				<div class="action-btns">
 					<a href={outlet.properties['Website']} class="card-btn" target="_blank"
@@ -261,15 +261,17 @@
 		display: flex;
 		justify-content: space-between;
 		align-items: baseline;
-		padding: 0.5rem 0.5rem 0.25rem;
 	}
 
 	.header-row {
 		border-bottom: 0.75px solid silver;
+		padding: 0.5rem 0.5rem 0.25rem;
 	}
 
 	.footer-row {
-		padding: 0 0.5rem 0.5rem;
+		align-items: center;
+		background-color: #eeeeee;
+		padding: 0.4rem 0.5rem 0.4rem 0.5rem;
 	}
 
 	.body-row {
@@ -294,11 +296,6 @@
 
 	.category-value {
 		font-weight: 600;
-	}
-
-	.footer-row {
-		margin-top: 0.6rem;
-		align-items: center;
 	}
 
 	.location,
