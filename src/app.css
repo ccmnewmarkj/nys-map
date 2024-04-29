@@ -255,6 +255,7 @@ li {
 }
 
 .popup-location {
+  font-family: "Roboto Condensed", sans-serif;
   font-size: 0.8rem;
   text-transform: uppercase;
   line-height: 1.2;
@@ -273,6 +274,7 @@ li {
 }
 
 .popup-category-label {
+  font-family: "Roboto Condensed", sans-serif;
   font-weight: 700;
   font-size: 0.75rem;
   text-transform: uppercase;
@@ -341,56 +343,3 @@ hr {
   border: 1px solid rgba(248, 181, 0, 0.45);
   display: inline-block;
 }
-
-/* .url-founded {
-  font-size: 0.75rem;
-  color: var(--text-color);
-  background-color: var(--popup-url-founded-bg);
-  padding: 0.2rem 1rem;
-  line-height: 1.2;
-}
-
-.outlet-container {
-  padding: 0.75rem 1rem;
-  background-color: var(--panel-table-bg);
-}
-
-.outlet-container hr {
-  margin-top: 0.5rem;
-  margin-bottom: 0.5rem;
-
-}
-
-.row {
-  line-height: 1.2;
-}
-
-.row:last-child {
-  margin-bottom: 0;
-}
-
-.row-header {
-  font-size: 0.7rem;
-  text-transform: uppercase;
-  color: var(--popup-subhead-fg);
-  font-weight: 500;
-}
-
-.row-note {
-  font-size: 0.65rem;
-  color: #306531;
-}
-
-.row-value {
-  font-size: 0.9rem;
-  color: var(--text-color);
-  display: flex;
-  gap: 5px;
-}
-
-.footer {
-  background-color: var(--popup-footer-bg);
-  font-size: 0.7rem;
-  line-height: 1.2;
-  padding: 0.1rem 1rem;
-} */
