@@ -14,20 +14,29 @@
 	];
 </script>
 
-<div class="legend">
-	{#each legendItems as item}
-		<div class="legend-item">
-			<span class="label">{item.label}</span>
-			<span
-				class="bullet"
-				style="color: rgb({item.color}); background-color: rgba({item.color}, 0.1); text-shadow: 1px 0px 5px #ffffff;"
-				>●</span
-			>
-		</div>
-	{/each}
+<div class="legend-container">
+	<p style="text-transform: uppercase; font-weight: 600; text-align: center; text-align: right;">
+		Legend
+	</p>
+	<div class="legend">
+		{#each legendItems as item}
+			<div class="legend-item">
+				<span class="label">{item.label}</span>
+				<span
+					class="bullet"
+					style="color: rgb({item.color}); background-color: rgba({item.color}, 0.1); text-shadow: 1px 0px 5px #ffffff;"
+					>●</span
+				>
+			</div>
+		{/each}
+	</div>
 </div>
 
 <style>
+	.legend-container {
+		font-family: 'Roboto Condensed', 'sans-serif;';
+		font-size: 0.8rem;
+	}
 	.legend {
 		padding: 5px 0 5px 5px;
 		width: 125px;
@@ -35,8 +44,6 @@
 		flex-direction: column;
 		align-items: flex-end;
 		row-gap: 2px;
-		font-family: 'Roboto Condensed', 'sans-serif;';
-		font-size: 0.8rem;
 	}
 
 	.legend-item {
