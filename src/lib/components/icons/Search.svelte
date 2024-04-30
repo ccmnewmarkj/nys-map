@@ -1,4 +1,5 @@
 <!-- Source: https://iconoir.com/ --><svg
+	aria-hidden="true"
 	width="15px"
 	height="15px"
 	viewBox="0 0 24 24"

@@ -1,4 +1,5 @@
 <!-- Source: https://iconoir.com/ --><svg
+	aria-hidden="true"
 	width="13px"
 	height="13px"
 	stroke-width="2.1"
