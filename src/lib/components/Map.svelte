@@ -576,21 +576,19 @@
 <!-- Container for map elements -->
 <section class="map-elements-container">
 	<!-- Geocoder -->
-	<div class="geocoder-container" tabindex="0" role="searchbox" aria-label="search" />
+	<div class="geocoder-container" tabindex="-1" role="searchbox" aria-label="search" />
 
 	<!-- Toggle polygon filters -->
-	<div class="toggle-container">
+	<fieldset class="toggle-container">
+		<legend class="sr-only">Geographic boundaries</legend>
 		<div>
-			<PolygonToggle
-				bind:checked={showCounties}
-				polygonType="Counties"
-				--bg="rgba(155, 176, 193, 1)"
-			/>
+			<PolygonToggle bind:checked={showCounties} polygonType="Counties" />
 		</div>
 		<div>
-			<PolygonToggle bind:checked={showRegions} polygonType="Regions" --bg="var(--cerulean)" />
+			<PolygonToggle bind:checked={showRegions} polygonType="Regions" />
 		</div>
-	</div>
+	</fieldset>
+
 	<hr />
 	<!-- Legend -->
 	<div class="legend-container">
@@ -693,5 +691,23 @@
 		font-size: 12px;
 		font-weight: 600;
 		gap: 1px;
+		font-family: 'Roboto Condensed', sans-serif;
+	}
+
+	fieldset {
+		border: none;
+		padding: 0;
+	}
+
+	/* source: https://guides.18f.gov/accessibility/hidden-content/ */
+	.sr-only {
+		border: 0;
+		clip: rect(0 0 0 0);
+		height: 1px;
+		margin: -1px;
+		overflow: hidden;
+		padding: 0;
+		position: absolute;
+		width: 1px;
 	}
 </style>
