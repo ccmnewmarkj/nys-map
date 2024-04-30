@@ -4,7 +4,7 @@
 	import Sidebar from '$lib/components/Sidebar.svelte';
 
 	// Import icon components
-	import ListIcon from '$lib/components/icons/List.svelte';
+	import ListIcon from '$lib/components/icons/ListOpen.svelte';
 
 	// Import transition
 	import { fade } from 'svelte/transition';
