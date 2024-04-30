@@ -1,5 +1,8 @@
 <script>
 	export let outletCount;
+
+	// CCM logo
+	import logo from '$lib/images/ccm-logo-transparent.png';
 </script>
 
 <p>
@@ -30,3 +33,14 @@
 	If you have any feedback, corrections or outlets that fit the criteria of the directory, please
 	email us at <a href="mailto:ccm@journalism.cuny.edu">ccm@journalism.cuny.edu</a>.
 </p>
+<div class="logo">
+	<a href="https://www.journalism.cuny.edu/centers/center-community-media/"
+		><img src={logo} alt="Center for Community Media logo" width="175" height="46" /></a
+	>
+</div>
+
+<style>
+	.logo {
+		margin-top: 2rem;
+	}
+</style>
