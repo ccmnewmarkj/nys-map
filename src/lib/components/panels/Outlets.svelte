@@ -32,7 +32,7 @@
 			if ($selectedCommunity.toString() === 'Multicultural') {
 				msg += ` reporting for <span class="outlets-filter-msg">Multicultural communitities</span>`;
 			} else {
-				msg += ` reporting in <span class="outlets-filter-msg">${$selectedCommunity.toString().replace(',', ' and ')} ${$selectedCommunity.length > 1 ? 'communities' : 'community'}</span>`;
+				msg += ` reporting in the <span class="outlets-filter-msg">${$selectedCommunity.toString().replace(',', ' and ')} ${$selectedCommunity.length > 1 ? 'communities' : 'community'}</span>`;
 			}
 		}
 
@@ -52,13 +52,13 @@
 	}
 
 	// Card border color based on format
-	const newspaperFormat = '250, 112, 112',
-		radioFormat = '64, 162, 227',
-		magazineFormat = '115, 144, 114',
-		digitalFormat = '255, 201, 74',
-		otherFormat = '179, 200, 207';
+	// const newspaperFormat = '250, 112, 112',
+	// 	radioFormat = '64, 162, 227',
+	// 	magazineFormat = '115, 144, 114',
+	// 	digitalFormat = '255, 201, 74',
+	// 	otherFormat = '179, 200, 207';
 
-	let cardShadow;
+	// let cardShadow;
 
 	// Zoom to outlet location on map when outlet name is selected
 	let lng;
@@ -126,11 +126,16 @@
 		<div class="outlet-card">
 			<div class="header-row" style="border-bottom: 1px solid #d1d1d1;">
 				<p class="outlet-name">{outlet.properties['Media Outlet']}</p>
-				<p class="location">
+				<!-- <p class="location">
 					{#if outlet.properties['City']}
 						<span style="color: #41B06E;">{outlet.properties['City']}, NY</span>
 					{:else}
 						<span style="color: #BCBCB8;">Location unavailable</span>
+					{/if}
+				</p> -->
+				<p class="founded">
+					{#if outlet.properties['Year Founded']}
+						Since {outlet.properties['Year Founded']}
 					{/if}
 				</p>
 			</div>
@@ -186,9 +191,16 @@
 					>
 				</div>
 
-				<p class="founded">
+				<!-- <p class="founded">
 					{#if outlet.properties['Year Founded']}
 						Since {outlet.properties['Year Founded']}
+					{/if}
+				</p> -->
+				<p class="location">
+					{#if outlet.properties['City']}
+						<span style="color: #41B06E;">{outlet.properties['City']}</span>
+						<!-- {:else}
+						<span style="color: #BCBCB8;">Location unavailable</span> -->
 					{/if}
 				</p>
 			</div>
@@ -246,7 +258,7 @@
 		background-color: var(--white-blue);
 		border: 1px solid #dee2e6;
 		border-radius: 3px;
-		margin-bottom: 1rem;
+		margin-bottom: 2rem;
 		box-shadow: 1px 1px 3px 0px rgba(0, 0, 0, 0.1);
 	}
 
@@ -260,6 +272,7 @@
 	.footer-row {
 		display: flex;
 		justify-content: space-between;
+		gap: 10px;
 		align-items: baseline;
 	}
 
@@ -270,8 +283,8 @@
 
 	.footer-row {
 		align-items: center;
-		background-color: #eeeeee;
-		padding: 0.4rem 0.5rem 0.4rem 0.5rem;
+		background-color: #f0f0f0;
+		padding: 0.4rem 0.5rem 0.35rem 0.5rem;
 	}
 
 	.body-row {
@@ -298,8 +311,8 @@
 		font-weight: 600;
 	}
 
-	.location,
-	.founded {
+	.founded,
+	.location {
 		font-size: 0.75rem;
 		font-weight: 400;
 		text-transform: uppercase;
@@ -315,18 +328,25 @@
 		gap: 8px;
 	}
 
+	.location {
+		width: 26%;
+		text-align: right;
+	}
+
 	.card-btn {
 		background-color: #f2f9fd;
 		border-radius: 3px;
 		color: var(--text-color-black);
 		font-size: 0.75rem;
-		padding: 0.25rem 0.5rem;
+		padding: 5px 8px;
 		text-decoration: none;
 		border: 1px solid #8aceef;
 		display: flex;
 		align-items: center;
 		gap: 3px;
 		font-family: 'DM Sans', sans-serif;
+		text-align: left;
+		line-height: 1;
 	}
 
 	.map-btn {
