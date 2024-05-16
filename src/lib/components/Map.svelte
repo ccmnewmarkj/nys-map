@@ -581,12 +581,10 @@
 	<!-- Toggle polygon filters -->
 	<fieldset class="toggle-container">
 		<legend class="sr-only">Geographic boundaries</legend>
-		<div>
-			<PolygonToggle bind:checked={showCounties} polygonType="Counties" />
-		</div>
-		<div>
-			<PolygonToggle bind:checked={showRegions} polygonType="Regions" />
-		</div>
+
+		<PolygonToggle bind:checked={showCounties} polygonType="Counties" />
+
+		<PolygonToggle bind:checked={showRegions} polygonType="Regions" />
 	</fieldset>
 
 	<hr />
@@ -600,7 +598,7 @@
 		<hr />
 		<div class="highlight-reset-container" transition:fade={{ duration: 100 }}>
 			<button
-				style="font-family: 'Roboto Condensed', sans-serif; font-weight: 900; display: flex; gap: 5px;"
+				style="font-family: 'Roboto Condensed', sans-serif; font-weight: 800; display: flex; gap: 5px;"
 				on:click|stopPropagation={() => {
 					$selectedOutlet = undefined;
 					$popup?.remove();
