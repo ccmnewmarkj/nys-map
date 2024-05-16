@@ -54,7 +54,7 @@
   font-family: 'Roboto Condensed';
   font-style: normal;
   font-weight: 400;
-  src: url('../fonts/roboto-condensed-v27-latin-regular.woff2') format('woff2');
+  src: url('/fonts/roboto-condensed-v27-latin-regular.woff2') format('woff2');
 }
 
 *,
