@@ -94,9 +94,7 @@
 	}
 
 	.active {
-		/* box-shadow: inset 0px -1px 0px 0px rgba(248, 181, 0, 1); */
 		background-color: var(--white);
-		font-weight: 700;
 		cursor: auto;
 	}
 
@@ -104,11 +102,9 @@
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		padding: 0.1rem 0.4rem;
-		margin-left: 0.2rem;
-		font-family: 'Open Sans', sans-serif;
-		font-size: 0.7rem;
-		font-weight: 700;
+		padding: 0.1rem 0.35rem;
+		margin-left: 0.1rem;
+		font-size: 0.75rem;
 		line-height: 1.4;
 		color: var(--white);
 		text-align: center;

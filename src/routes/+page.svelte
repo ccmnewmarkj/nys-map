@@ -130,9 +130,8 @@
 		border-radius: 5px;
 		background-color: rgba(255, 255, 255, 0.85);
 		top: 0;
-		z-index: 1;
+		z-index: 2; /* above zoom controls */
 		margin: 2rem;
-		/* box-shadow: 0px 0px 24px 3px rgba(255, 255, 255, 0.2); */
 		box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.1);
 		display: flex;
 		flex-direction: column;

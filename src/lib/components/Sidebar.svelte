@@ -43,7 +43,7 @@
 </nav>
 
 {#if $aboutPanelVisible}
-	<main class="panel-body" in:fade>
+	<main class="panel-body" style="padding: 0;" in:fade>
 		<AboutPanel {outletCount} />
 	</main>
 {:else if $searchPanelVisible}
@@ -77,7 +77,7 @@
 	}
 
 	header {
-		padding: 1rem 1rem 0.5rem 1rem;
+		padding: 0.75rem 1rem 0.5rem 1rem;
 
 		/* Source: https://uigradients.com */
 		background: #f8b500; /* fallback for old browsers */

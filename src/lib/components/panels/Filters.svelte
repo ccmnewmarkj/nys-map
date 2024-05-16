@@ -89,6 +89,7 @@
 		<LanguageSearch />
 	</div>
 </section>
+
 <hr />
 
 <!-- Outlet search -->
@@ -110,13 +111,14 @@
 		width: 90%;
 		margin-left: auto;
 		margin-right: auto;
+		border-top: 0.5px solid rgba(0, 0, 0, 0.2);
 	}
 
 	details > summary {
-		font-size: 0.85rem;
+		font-size: 0.8rem;
 		background-color: var(--alice-blue-light);
 		cursor: pointer;
-		padding: 0.25rem 0rem 0.25rem 0.5rem;
+		padding: 0.5rem 0rem 0.5rem 0.5rem;
 	}
 
 	/* two "cols" with arrow and text: https://stackoverflow.com/questions/51131818/how-to-vertically-align-detailss-arrow-with-summarys-content */

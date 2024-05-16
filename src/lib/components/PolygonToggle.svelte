@@ -61,7 +61,7 @@
 	label {
 		display: block;
 		padding: 4px 4px 6px 6px;
-		border: 0 solid rgba(71, 147, 175, 0.75);
+		border: 0 solid rgba(71, 147, 175, 0.75); /* prevents jumping */
 		border-radius: 5px;
 		cursor: pointer;
 		font-family: 'Roboto Condensed', 'sans-serif;';
