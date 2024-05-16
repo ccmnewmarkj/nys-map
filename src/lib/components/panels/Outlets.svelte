@@ -51,15 +51,6 @@
 		filterMsg = generateFilterMsg();
 	}
 
-	// Card border color based on format
-	// const newspaperFormat = '250, 112, 112',
-	// 	radioFormat = '64, 162, 227',
-	// 	magazineFormat = '115, 144, 114',
-	// 	digitalFormat = '255, 201, 74',
-	// 	otherFormat = '179, 200, 207';
-
-	// let cardShadow;
-
 	// Zoom to outlet location on map when outlet name is selected
 	let lng;
 	let lat;
@@ -107,39 +98,16 @@
 
 <section class="cards">
 	{#each paginatedDirectory as outlet}
-		<!-- Section for generating color based on format -->
-		<!-- <span style="display: none;">
-			{#if outlet.properties['Primary Format']}
-				{(cardShadow =
-					{
-						Newspaper: newspaperFormat,
-						Radio: radioFormat,
-						Magazine: magazineFormat,
-						'Digital only': digitalFormat
-					}[outlet.properties['Primary Format']] || otherFormat)}
-			{/if}
-		</span> -->
-		<!--
-			border: 1px solid rgba({cardShadow}, 0.5)"
-			background-color: rgba({cardShadow}, 0.2); 
-		-->
 		<div class="outlet-card">
-			<div class="header-row" style="border-bottom: 1px solid #d1d1d1;">
+			<div class="header-row">
 				<p class="outlet-name">{outlet.properties['Media Outlet']}</p>
-				<!-- <p class="location">
-					{#if outlet.properties['City']}
-						<span style="color: #41B06E;">{outlet.properties['City']}, NY</span>
-					{:else}
-						<span style="color: #BCBCB8;">Location unavailable</span>
-					{/if}
-				</p> -->
 				<p class="founded">
 					{#if outlet.properties['Year Founded']}
 						Since {outlet.properties['Year Founded']}
 					{/if}
 				</p>
 			</div>
-			<!-- <hr style="border-top: 0.75px solid silver;" /> -->
+
 			<div class="body-row">
 				<div class="body-line">
 					<p class="category-label">Primary Format</p>
@@ -172,7 +140,7 @@
 					</p>
 				</div>
 			</div>
-			<!-- <hr style="margin-top: 0;" /> -->
+
 			<div class="footer-row">
 				<div class="action-btns">
 					<a href={outlet.properties['Website']} class="card-btn" target="_blank"
@@ -191,11 +159,6 @@
 					>
 				</div>
 
-				<!-- <p class="founded">
-					{#if outlet.properties['Year Founded']}
-						Since {outlet.properties['Year Founded']}
-					{/if}
-				</p> -->
 				<p class="location">
 					{#if outlet.properties['City']}
 						<span style="color: #41B06E;">{outlet.properties['City']}</span>
@@ -277,7 +240,7 @@
 	}
 
 	.header-row {
-		border-bottom: 0.75px solid silver;
+		border-bottom: 1px solid #c2d6df;
 		padding: 0.5rem 0.5rem 0.25rem;
 	}
 
@@ -308,7 +271,7 @@
 	}
 
 	.category-value {
-		font-weight: 600;
+		font-weight: 400;
 	}
 
 	.founded,
@@ -350,7 +313,6 @@
 	}
 
 	.map-btn {
-		/* background-color: #eff8f1; */
 		background-color: var(--white-blue);
 		border: 1px solid #a0d5ae;
 	}
@@ -362,19 +324,7 @@
 		font-family: 'Roboto Condensed', sans-serif;
 	}
 
-	/* .page-btns-container button {
-		background-color: rgba(81, 130, 155, 0.25);
-		border-radius: 50%;
-		color: var(--text-color-black);
-		font-size: 0.75rem;
-		padding: 0.25rem 0.5rem;
-		margin: 0 0.75rem;
-	} */
-
 	.page-btns-container button.disabled {
-		/* cursor: default;
-		color: var(--text-color-black);
-		background-color: var(--light-gray); */
 		visibility: hidden;
 	}
 </style>
