@@ -62,7 +62,6 @@
 	</p>
 
 	<form>
-		<!-- <label for="outlet-search">Search by media outlet</label> -->
 		<Select
 			id="outlet-search"
 			items={outletNames}
@@ -105,11 +104,6 @@
 </details>
 
 <style>
-	/* remove accordion arrow */
-	/* details > summary {
-		display: block; 
-	} */
-
 	/* accordion styles from https://css-tricks.com/how-to-animate-the-details-element/ */
 	details {
 		box-sizing: border-box;
@@ -118,35 +112,33 @@
 
 	details > summary {
 		padding: 0.5rem;
-		display: block;
 		background-color: var(--blue-gray);
 		font-weight: 600;
 		color: white;
-		padding-left: 2.2rem;
-		position: relative;
 		cursor: pointer;
 		font-family: 'Roboto Condensed', sans-serif;
 		text-transform: uppercase;
 	}
 
+	/* space between arrow and text */
+	summary::before {
+		content: '\2008';
+	}
+
+	/* style arrow marker */
+	summary::-webkit-details-marker {
+		color: var(--yellow-orange);
+	}
+	summary::marker {
+		color: var(--yellow-orange);
+	}
+
 	details[open] > summary:before {
 		transform: rotate(90deg);
 	}
-	details > summary:before {
-		content: '';
-		border-width: 0.4rem;
-		border-style: solid;
-		border-color: transparent transparent transparent var(--yellow-orange);
-		position: absolute;
-		top: 0.65rem;
-		left: 1rem;
-		transform: rotate(0);
-		transform-origin: 0.2rem 50%;
-		transition: 0.25s transform ease;
-	}
 
 	details > .content {
-		font-size: 0.85rem;
+		font-size: 0.8rem;
 		padding: 0.75rem;
 	}
 
