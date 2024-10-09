@@ -32,20 +32,22 @@
 		// Set Airtable data to $directoryData store
 		directoryData.set({
 			type: 'FeatureCollection',
-			features: data.airtableRecords.map((d) => {
-				const obj = {
-					type: 'Feature',
-					geometry: {
-						type: 'Point',
-						coordinates: [+d['Longitude'], +d['Latitude']]
-					},
-					properties: {
-						...d,
-						'Primary Format': d['Primary Format'].toString()
-					}
-				};
-				return obj;
-			})
+			features: data.airtableRecords
+				.map((d) => {
+					const obj = {
+						type: 'Feature',
+						geometry: {
+							type: 'Point',
+							coordinates: [+d['Longitude'], +d['Latitude']]
+						},
+						properties: {
+							...d,
+							'Primary Format': d['Primary Format']?.toString()
+						}
+					};
+					return obj;
+				})
+				.filter((d) => d.properties['Status'] === 'Active')
 		});
 
 		// Set filteredDirectory to include all outlets as its initial state
