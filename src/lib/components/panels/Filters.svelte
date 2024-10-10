@@ -41,12 +41,16 @@
 			$map.getSource('outlets').setData($directoryData);
 		}
 	}
+
+	// Transition effect for accordion
+	import { slide } from 'svelte/transition';
+	let isOpen = false;
 </script>
 
 <!-- Intro -->
 <section>
 	<p>Apply one or more of the three filters to narrow down your search.</p>
-	<details style="margin-top: 0.5rem;">
+	<details style="margin-top: 0.5rem;" bind:open={isOpen}>
 		<summary
 			><p>
 				Selecting an option from a filter will modify all three filters to show only the remaining
@@ -54,21 +58,23 @@
 			</p></summary
 		>
 
-		<div class="content">
-			<p>For example, if you select "Black" as the community:</p>
-			<ul>
-				<li>
-					You will only be able to additionally select "Latino" from the comminity filter because
-					just that combination is found among outlets in the directory that serve the Black
-					community.
-				</li>
-				<li>
-					Likewise, the format and language filters will only show options found among Black media
-					outlets. Or, if "Latino" is also selected, those two filters will show options for only
-					the outlets that serve both two communities.
-				</li>
-			</ul>
-		</div>
+		{#if isOpen}
+			<div class="content" in:slide={{ duration: 750 }}>
+				<p>For example, if you select "African American" as the community:</p>
+				<ul>
+					<li>
+						You will only be able to additionally select "Latino" from the comminity filter because
+						just that combination is found among outlets in the directory that serve the African
+						American community.
+					</li>
+					<li>
+						Likewise, the format and language filters will only show options found among African
+						American media outlets. Or, if "Latino" is also selected, those two filters will show
+						options for only the outlets that serve both two communities.
+					</li>
+				</ul>
+			</div>
+		{/if}
 	</details>
 </section>
 
@@ -141,6 +147,8 @@
 	details[open] > .content {
 		border-top: 1px solid var(--alice-blue);
 		border-bottom: 1px solid var(--alice-blue);
-		font-size: 0.8rem;
+		font-size: 0.75rem;
+		background-color: rgba(216, 224, 232, 0.15);
+		padding: 0 10px;
 	}
 </style>
