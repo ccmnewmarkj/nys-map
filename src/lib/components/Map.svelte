@@ -82,7 +82,7 @@
 		// Geocoder
 		const geocoder = new MapboxGeocoder({
 			accessToken: mapboxgl.accessToken,
-			placeholder: 'Search by NYS address',
+			placeholder: 'Enter NYS address',
 			mapboxgl: mapboxgl,
 			// marker: true,
 			marker: {
@@ -575,8 +575,13 @@
 
 <!-- Container for map elements -->
 <section class="map-elements-container">
-	<!-- Geocoder -->
-	<div class="geocoder-container" tabindex="-1" role="searchbox" aria-label="search" />
+	<!-- Search -->
+	<div class="geocoder-container">
+		<fieldset>
+			<legend style="width: 80px; text-align: right;">Search by address</legend>
+			<!-- <div class="geocoder-container" tabindex="-1" role="searchbox" aria-label="search"> -->
+		</fieldset>
+	</div>
 
 	<!-- Toggle polygon filters -->
 	<fieldset class="toggle-container">
@@ -588,6 +593,7 @@
 	</fieldset>
 
 	<hr />
+
 	<!-- Legend -->
 	<div class="legend-container">
 		<Legend />
@@ -643,17 +649,26 @@
 
 	.geocoder-container {
 		z-index: 1;
-		top: 10px;
-		right: 10px;
+		/* top: 10px;
+		right: 10px; */
 		margin-bottom: 0.75rem;
+		display: flex;
+		gap: 10px;
+		align-items: center;
 	}
 
-	/* @media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
-    .geocoder-container {
-      top: 3.25rem;
-      right: -5px;
-    }
-  } */
+	.geocoder-container legend {
+		font-family: 'Roboto Condensed', 'sans-serif;';
+		text-transform: uppercase;
+		font-size: 0.8rem;
+		font-weight: 800;
+	}
+
+	@media only screen and (max-device-width: 512px) {
+		.geocoder-container {
+			display: none;
+		}
+	}
 
 	.toggle-container {
 		margin-top: 0.75rem;
@@ -672,7 +687,7 @@
 		margin-top: 0.75rem;
 		font-size: 12px;
 		background-color: rgba(249, 232, 151, 0.5);
-		border: 1px solid #fff455;
+		border: 1px solid var(--yellow);
 		border-radius: 3px;
 		padding: 0px 2px;
 	}
