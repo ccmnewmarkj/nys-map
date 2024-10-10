@@ -29,7 +29,7 @@
 </script>
 
 <header>
-	<h1>NYS Media Map</h1>
+	<h1>New York State Media Map</h1>
 	<p style="font-size: 0.85rem;">
 		A project of the <a
 			href="https://www.journalism.cuny.edu/centers/center-community-media/advertising-boost-initiative/"
