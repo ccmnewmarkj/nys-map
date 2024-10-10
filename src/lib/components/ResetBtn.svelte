@@ -30,5 +30,6 @@
 		box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.15);
 		border: 0px solid rgba(0, 0, 0, 0.25);
 		cursor: pointer;
+		box-shadow: 0 0 5px 3px var(--yellow); /* outer glow */
 	}
 </style>
