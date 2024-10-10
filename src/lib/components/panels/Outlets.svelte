@@ -89,16 +89,25 @@
 	}
 </script>
 
+<!-- Intro -->
 <section class="intro">
 	<div class="header">
 		<h2 style="margin-top: 0;">NYS Media Directory</h2>
+		{#if !filterMsg}<p style="padding-top: 5px;">
+				Find below information about the {outletCount}
+				outlets. This list includes outlets without a known location and do not appear on the map. Apply
+				filters in the <span class="tab">Search</span> tab to narrow down the results.
+			</p>
+		{/if}
 		<p style="line-height: 1.4;">{@html filterMsg}</p>
 	</div>
 </section>
 
+<!-- Cards -->
 <section class="cards">
 	{#each paginatedDirectory as outlet}
 		<div class="outlet-card">
+			<!-- Card header row -->
 			<div class="header-row">
 				<p class="outlet-name">{outlet.properties['Media Outlet']}</p>
 				<p class="founded">
@@ -108,6 +117,7 @@
 				</p>
 			</div>
 
+			<!-- Card body row -->
 			<div class="body-row">
 				<div class="body-line">
 					<p class="category-label">Primary Format</p>
@@ -141,29 +151,35 @@
 				</div>
 			</div>
 
+			<!-- Card footer row -->
 			<div class="footer-row">
+				<!-- Buttons -->
 				<div class="action-btns">
-					<a href={outlet.properties['Website']} class="card-btn" target="_blank"
-						><OpenLink /> Visit website</a
-					>
-					<button
-						class="card-btn map-btn"
-						on:click={() => {
-							$selectedOutlet = outlet.properties['Media Outlet'];
+					{#if outlet.properties['Website']}
+						<a href={outlet.properties['Website']} class="card-btn" target="_blank"
+							><OpenLink /> Visit website</a
+						>
+					{/if}
+					{#if outlet.geometry.coordinates[0]}<button
+							class="card-btn map-btn"
+							on:click={() => {
+								$selectedOutlet = outlet.properties['Media Outlet'];
 
-							lng = outlet.geometry.coordinates[0];
-							lat = outlet.geometry.coordinates[1];
+								lng = outlet.geometry.coordinates[0];
+								lat = outlet.geometry.coordinates[1];
 
-							outlet.geometry.coordinates[0] !== undefined ? flyTo(10, [lng, lat]) : null;
-						}}><MapPin /> Find on map</button
-					>
+								outlet.geometry.coordinates[0] !== undefined ? flyTo(10, [lng, lat]) : null;
+							}}><MapPin strokeColor="#41B06E" /> Find on map</button
+						>
+					{/if}
 				</div>
 
+				<!-- City -->
 				<p class="location">
 					{#if outlet.properties['City']}
 						<span style="color: #41B06E;">{outlet.properties['City']}</span>
-						<!-- {:else}
-						<span style="color: #BCBCB8;">Location unavailable</span> -->
+					{:else}
+						<span style="color: gray;">Location unavailable</span>
 					{/if}
 				</p>
 			</div>
@@ -235,7 +251,7 @@
 	.footer-row {
 		display: flex;
 		justify-content: space-between;
-		gap: 10px;
+		/* gap: 10px; */
 		align-items: baseline;
 	}
 
@@ -288,7 +304,8 @@
 
 	.action-btns {
 		display: flex;
-		gap: 8px;
+		justify-content: space-between;
+		gap: 6px;
 	}
 
 	.location {
