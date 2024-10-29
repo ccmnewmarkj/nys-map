@@ -30,14 +30,35 @@
 
 		if ($selectedCommunity) {
 			if ($selectedCommunity.toString() === 'Multicultural') {
-				msg += ` reporting for <span class="outlets-filter-msg">Multicultural communitities</span>`;
+				msg += ` covering <span class="outlets-filter-msg">Multicultural communitities</span>`;
 			} else {
-				msg += ` reporting in the <span class="outlets-filter-msg">${$selectedCommunity.toString().replace(',', ' and ')} ${$selectedCommunity.length > 1 ? 'communities' : 'community'}</span>`;
+				// replace `,` with `, ` or before the last item, `and`
+				const communityList = $selectedCommunity
+					.toString()
+					.split(',')
+					.map((item) => item.trim());
+				const formattedCommunityList =
+					communityList.length > 1
+						? communityList.slice(0, -1).join(', ') + ' and ' + communityList.slice(-1)
+						: communityList[0];
+				msg += ` covering the <span class="outlets-filter-msg">${formattedCommunityList} ${communityList.length > 1 ? 'communities' : 'community'}</span>`;
 			}
 		}
 
 		if ($selectedLanguage) {
-			msg += ` reporting in <span class="outlets-filter-msg">${$selectedLanguage.toString().replace(',', ' and ')}</span>`;
+			const languageList = $selectedLanguage
+				.toString()
+				.split(',')
+				.map((item) => item.trim());
+			const formattedLanguageList =
+				languageList.length > 1
+					? languageList.slice(0, -1).join(', ') + ' and ' + languageList.slice(-1)
+					: languageList[0];
+			if ($selectedCommunity) {
+				msg += ` and reporting in <span class="outlets-filter-msg">${formattedLanguageList}</span>`;
+			} else {
+				msg += ` reporting in <span class="outlets-filter-msg">${formattedLanguageList}</span>`;
+			}
 		}
 
 		return msg;
@@ -119,11 +140,13 @@
 
 			<!-- Card body row -->
 			<div class="body-row">
+				<!-- Primary format -->
 				<div class="body-line">
 					<p class="category-label">Primary Format</p>
 					<p class="category-value">{outlet.properties['Primary Format']}</p>
 				</div>
 				<hr />
+				<!-- Community -->
 				<div class="body-line">
 					<p class="category-label">
 						{#if outlet.properties['Community'].toString().includes(',')}
@@ -133,10 +156,11 @@
 						{/if}
 					</p>
 					<p class="category-value">
-						{outlet.properties['Community'].toString().replace(',', ', ')}
+						{outlet.properties['Community'].toString().replaceAll(',', ', ')}
 					</p>
 				</div>
 				<hr />
+				<!-- Language -->
 				<div class="body-line">
 					<p class="category-label">
 						{#if outlet.properties['Language'].toString().includes(',')}
@@ -146,7 +170,7 @@
 						{/if}
 					</p>
 					<p class="category-value">
-						{outlet.properties['Language'].toString().replace(',', ', ')}
+						{outlet.properties['Language'].toString().replaceAll(',', ', ')}
 					</p>
 				</div>
 			</div>
@@ -156,7 +180,7 @@
 				<!-- Buttons -->
 				<div class="action-btns">
 					{#if outlet.properties['Website']}
-						<a href={outlet.properties['Website']} class="card-btn" target="_blank"
+						<a href={outlet.properties['Website']} class="card-btn website-btn" target="_blank"
 							><OpenLink /> Visit website</a
 						>
 					{/if}
@@ -284,10 +308,12 @@
 		text-transform: uppercase;
 		line-height: 1;
 		color: #999999;
+		flex-basis: 50%;
 	}
 
 	.category-value {
 		font-weight: 400;
+		text-align: right;
 	}
 
 	.founded,
@@ -314,13 +340,11 @@
 	}
 
 	.card-btn {
-		background-color: #f2f9fd;
 		border-radius: 3px;
 		color: var(--text-color-black);
 		font-size: 0.75rem;
 		padding: 5px 8px;
 		text-decoration: none;
-		border: 1px solid #8aceef;
 		display: flex;
 		align-items: center;
 		gap: 3px;
@@ -329,9 +353,24 @@
 		line-height: 1;
 	}
 
+	.website-btn {
+		background-color: var(--white-blue);
+		border: 1px solid #8aceef;
+	}
+
+	.website-btn:hover {
+		background-color: #ebf5ff;
+		transition: 0.5s;
+	}
+
 	.map-btn {
 		background-color: var(--white-blue);
 		border: 1px solid #a0d5ae;
+	}
+
+	.map-btn:hover {
+		background-color: #eaf5ed;
+		transition: 0.5s;
 	}
 
 	.page-btns-container {
