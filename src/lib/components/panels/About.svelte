@@ -5,7 +5,8 @@
 	import MapPin from '$lib/components/icons/MapPin.svelte';
 
 	// CCM logo
-	import logo from '$lib/images/ccm-logo-transparent.png';
+	import jSchoolLogo from '$lib/images/CCM+TheAdvertisingBoostInitiative.png';
+	import newmarkJLogo from '$lib/images/NewmarkJ-logo.png';
 </script>
 
 <section class="about-body">
@@ -13,10 +14,16 @@
 		This map of <span style="font-weight: 800;"
 			>community media outlets in New York State, north of New York City</span
 		>, includes {outletCount}
-		outlets that primarily cover communities of color and immigrants. The map accompanies the New York
-		State Media Directory, which together serve as a resource for advertisers, journalists, community
-		organizers, and others who want to connect with the community media sector in New York State. You
-		can see the list of outlets under the <span class="tab">Outlets</span> tab
+		outlets that primarily cover communities of color and immigrants. The map accompanies the
+		<strong
+			><a href="https://airtable.com/appe9qcomiFJb4wyG/shrdltIHFKEmt8Nx2"
+				>New York State Media Directory</a
+			></strong
+		>, which together serve as a resource for advertisers, journalists, community organizers, and
+		others who want to connect with the community media sector in the state.
+
+		<!-- You can see the list of
+		outlets under the <span class="tab">Outlets</span> tab -->
 	</p>
 	<p class="callout" style="margin-top: 1rem;">
 		For community media outlets in New York City, visit CCM's <a
@@ -66,8 +73,17 @@
 		clear to marketing directors and communications staff at New York departments and agencies just how
 		vital a role community media plays in civic life.
 	</p>
-	<a href="https://www.journalism.cuny.edu/centers/center-community-media/"
-		><img src={logo} alt="Center for Community Media logo" width="175" height="46" /></a
+	<a
+		href="https://www.journalism.cuny.edu/centers/center-community-media/advertising-boost-initiative/"
+		><img
+			src={jSchoolLogo}
+			alt="Center for Community Media and Advertising Boost Initiative logo"
+			width="325"
+			height="auto"
+		/></a
+	>
+	<a href="https://www.journalism.cuny.edu/"
+		><img src={newmarkJLogo} alt="Newmark J-School logo" width="310" height="auto" /></a
 	>
 </section>
 
@@ -82,6 +98,7 @@
 		background-color: var(--light-gray);
 		display: flex;
 		flex-direction: column;
+		align-items: center;
 		row-gap: 20px;
 		font-size: 0.85rem;
 	}
