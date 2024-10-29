@@ -29,7 +29,8 @@
 	import { fade } from 'svelte/transition';
 
 	let mapContainer;
-	const centerMap = { lng: -75.2, lat: 42.9 };
+	// const centerMap = { lng: -75.2, lat: 42.9 };
+	const centerMap = { lng: -75.9, lat: 42.9 };
 
 	mapboxgl.accessToken =
 		'pk.eyJ1IjoiamVuY2hlIiwiYSI6ImNsdDlhNWNtdTBnOXEybW5wMmxxMDRneGMifQ.-aAXBbQZGsiJeZ-zvOXJQA';
@@ -44,6 +45,7 @@
 	export let sidebarVisible;
 	let globePadding;
 
+	// On desktop, shift map to the right when sidebar is visible
 	$: if (sidebarVisible) {
 		globePadding = { left: 400 };
 	} else {
@@ -53,6 +55,13 @@
 	// Reset button
 	let initialCenterLng;
 	let movedCenterLng;
+	// for mobile
+	let initialSWBoundsLng;
+	let initialNEBoundsLng;
+	let initialSWBoundsLngMoved;
+	let initialNEBoundsLngMoved;
+
+	let isMobile;
 
 	// Color by format
 	const newspaperFormat = '250, 112, 112',
@@ -63,6 +72,11 @@
 		otherFormat = '179, 200, 207';
 
 	onMount(() => {
+		isMobile =
+			/Android|BlackBerry|IEMobile|iPod|iPhone|Opera Mini|webOS/i.test(navigator.userAgent) &&
+			!/iPad|Tablet/i.test(navigator.userAgent) &&
+			window.matchMedia('(max-width: 768px)').matches;
+
 		// Set up map via store
 		map.set(
 			new mapboxgl.Map({
@@ -452,7 +466,6 @@
 				`;
 
 				// Conditional popup values
-
 				let yearFoundedValue = e.features[0].properties['Year Founded']
 					? ` • Founded in ${e.features[0].properties['Year Founded']}`
 					: '';
@@ -473,8 +486,7 @@
 					? `${infoIcon} Map location is approximate`
 					: '';
 
-				// POPUP
-
+				// POPUP CONTENT
 				const popupContent = `
 				
 			<div class="popup-header" style="background-color: rgba(${headerBg}, 0.5);">
@@ -517,7 +529,7 @@
 			});
 
 			///////////////////////////
-			// RESET MAP
+			// RESET MAP, MOBILE
 			///////////////////////////
 
 			// Establish initial center longtitude value
@@ -531,6 +543,28 @@
 				// Restrict panning to bounds
 				$map?.setMaxBounds(mapBounds);
 			});
+
+			// Hide sidebar on mobile if map touched
+			$map.on('click', () => {
+				if (
+					window.matchMedia('(max-width: 480px), (max-height: 480px)').matches &&
+					sidebarVisible
+				) {
+					sidebarVisible = false;
+				}
+			});
+
+			// For mobile
+			if (window.matchMedia('(max-width: 512px)').matches) {
+				// set bounds
+				// $map.fitBounds([
+				// 	[-79.75, 40.5],
+				// 	[-72, 45]
+				// ]);
+
+				// set zoom level
+				$map.setZoom(5);
+			}
 		});
 	});
 
@@ -541,16 +575,17 @@
 	});
 
 	// Update globe padding depending on state of sidebar
-	$: $map?.easeTo({
-		padding: globePadding,
-		duration: 1000
-	});
+	$: if (!isMobile)
+		$map?.easeTo({
+			padding: globePadding,
+			duration: 1000
+		});
 
 	// Polygon toggles
 	export let showCounties = false;
 	export let showRegions = false;
 
-	// Show selected outlet circle on map
+	// Highlight selected outlet circle on map
 	$: if ($selectedOutlet) {
 		$map.setFilter('outlet-search-layer', [
 			'any',
@@ -599,7 +634,7 @@
 		<Legend />
 	</div>
 
-	<!-- Reset highlighted outlet -->
+	<!-- Button: Reset highlighted outlet -->
 	{#if $selectedOutlet}
 		<hr />
 		<div class="highlight-reset-container" transition:fade={{ duration: 100 }}>
@@ -620,7 +655,7 @@
 {#if initialCenterLng?.toFixed(1) !== movedCenterLng?.toFixed(1)}
 	<div class="reset-container" transition:fade={{ duration: 100 }}>
 		RESET
-		<ResetMap><NYSIcon /></ResetMap>
+		<ResetMap {centerMap} {isMobile}><NYSIcon /></ResetMap>
 	</div>
 {/if}
 
@@ -665,6 +700,10 @@
 	}
 
 	@media only screen and (max-device-width: 512px) {
+		.map-elements-container {
+			top: 0;
+		}
+
 		.geocoder-container {
 			display: none;
 		}
@@ -676,20 +715,10 @@
 		display: flex;
 		flex-direction: column;
 		align-items: flex-end;
-		row-gap: 3px;
 	}
 
 	.legend-container {
 		margin-top: 0.25rem;
-	}
-
-	.highlight-reset-container {
-		margin-top: 0.75rem;
-		font-size: 12px;
-		background-color: rgba(249, 232, 151, 0.5);
-		border: 1px solid var(--yellow);
-		border-radius: 3px;
-		padding: 0px 2px;
 	}
 
 	/* reset button */
@@ -705,6 +734,21 @@
 		font-weight: 600;
 		gap: 1px;
 		font-family: 'Roboto Condensed', sans-serif;
+	}
+
+	@media only screen and (max-device-width: 512px) {
+		.reset-container {
+			bottom: 125px;
+		}
+	}
+
+	.highlight-reset-container {
+		margin-top: 0.75rem;
+		font-size: 12px;
+		background-color: rgba(249, 232, 151, 0.5);
+		border: 1px solid var(--yellow);
+		border-radius: 3px;
+		padding: 0px 2px;
 	}
 
 	fieldset {
