@@ -58,6 +58,15 @@
 	src: url('/fonts/roboto-condensed-v27-latin-regular.woff2') format('woff2');
 }
 
+/* roboto-condensed-600 - latin */
+@font-face {
+	font-display: swap;
+	font-family: 'Roboto Condensed';
+	font-style: normal;
+	font-weight: 600;
+	src: url('/fonts/roboto-condensed-v27-latin-600.woff2') format('woff2');
+}
+
 *,
 *::before,
 *::after {
@@ -83,7 +92,8 @@ a {
 h1 {
 	font-family: 'Playfair Display';
 	font-weight: 600;
-	font-size: 1.7rem;
+	/* font-size: 1.7rem; */
+	font-size: clamp(1.5rem, 1.4464rem + 0.2679vw, 1.6875rem); /* https://clamp.font-size.app/ */
 }
 
 h2 {
@@ -91,6 +101,11 @@ h2 {
 	font-size: 1.3rem;
 	font-weight: 600;
 	margin-top: 1rem;
+}
+
+img {
+	max-width: 100%;
+	height: auto;
 }
 
 button {
@@ -309,8 +324,9 @@ hr {
 .outlets-filter-msg {
 	padding: 0 4px;
 	border-radius: 2px;
-	/* background-color: var(--light-yellow);  */
-	background-color: var(--white-blue);
+	background-color: var(--light-yellow);
 	border: 1px solid rgba(248, 181, 0, 0.45);
-	display: inline-block;
+	/* display: inline-block; */
+	-webkit-box-decoration-break: clone;
+	box-decoration-break: clone;
 }
