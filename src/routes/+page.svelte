@@ -108,20 +108,22 @@
 <Map bind:sidebarVisible />
 
 <!-- Sidebar -->
-{#if sidebarVisible}
-	<div class="sidebar-content" transition:fade={{ duration: 300 }}>
-		<Sidebar bind:sidebarVisible></Sidebar>
-	</div>
-{:else}
-	<!-- Sidebar toggle -->
-	<button
-		aria-label="Show sidebar"
-		class="sidebar-collapsed"
-		on:click|stopPropagation={() => (sidebarVisible = !sidebarVisible)}
-	>
-		<ListIcon />
-	</button>
-{/if}
+<section class="sidebar-container">
+	{#if sidebarVisible}
+		<div class="sidebar-content" transition:fade={{ duration: 300 }}>
+			<Sidebar bind:sidebarVisible></Sidebar>
+		</div>
+	{:else}
+		<!-- Sidebar toggle -->
+		<button
+			aria-label="Show sidebar"
+			class="sidebar-collapsed"
+			on:click|stopPropagation={() => (sidebarVisible = !sidebarVisible)}
+		>
+			<ListIcon />
+		</button>
+	{/if}
+</section>
 
 <style>
 	.sidebar-content {
@@ -133,7 +135,7 @@
 		background-color: rgba(255, 255, 255, 0.85);
 		top: 0;
 		z-index: 2; /* above zoom controls */
-		margin: 2rem;
+		margin: 1rem;
 		box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.1);
 		display: flex;
 		flex-direction: column;
@@ -144,8 +146,15 @@
 	.sidebar-collapsed {
 		position: absolute;
 		top: 0;
-		margin: 2rem;
+		margin: 1rem; /* 2rem; */
 		background-color: transparent;
 		border: 0;
+	}
+
+	@media only screen and (max-device-width: 512px) {
+		.sidebar-content {
+			max-height: calc(100vh - 2rem);
+			max-height: calc(100svh - 2rem);
+		}
 	}
 </style>

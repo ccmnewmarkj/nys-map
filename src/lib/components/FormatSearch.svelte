@@ -53,7 +53,7 @@
 			// formatList.length > 1
 			// 	? `Search from ${formatList.length} formats`
 			// 	: `Search from ${formatList.length} format`;
-			`Search by format <span style="font-weight: 400;">(${formatList.length} total)</span>`;
+			`Search by primary format <span style="font-weight: 400;">(${formatList.length} total)</span>`;
 	}
 
 	// Clear/reset selected filter when outlet is selected

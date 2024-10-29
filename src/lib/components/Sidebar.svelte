@@ -11,7 +11,6 @@
 
 	// Import stores
 	import {
-		directoryData,
 		filteredDirectory,
 		aboutPanelVisible,
 		searchPanelVisible,
