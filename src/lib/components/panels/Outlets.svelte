@@ -14,23 +14,26 @@
 	import MapPin from '$lib/components/icons/MapPin.svelte';
 	import LeftArrow from '$lib/components/icons/LeftArrow.svelte';
 	import RightArrow from '$lib/components/icons/RightArrow.svelte';
+	import CloseCircle from '$lib/components/icons/CloseCircle.svelte';
+	import Search from '$lib/components/icons/Search.svelte';
 
 	export let outletCount;
 
-	let filterMsg;
+	let filterMsg; // When a filter has been applied
+	let searchQuery = ''; // Search through cards via outlet name
 
 	function generateFilterMsg() {
 		let msg = `Showing ${outletCount} `;
 
 		if ($selectedFormat) {
-			msg += `<span class="outlets-filter-msg">${$selectedFormat.replace('Digital only', 'Digital-only outlet').replace('Radio', 'Radio station').replace('TV', 'TV station').toLowerCase()}${outletCount > 1 ? 's' : ''}</span>`;
+			msg += `<span class="filter-selections">${$selectedFormat.replace('Digital only', 'Digital-only outlet').replace('Radio', 'Radio station').replace('TV', 'TV station').toLowerCase()}${outletCount > 1 ? 's' : ''}</span>`;
 		} else {
 			msg += `${outletCount > 1 ? 'outlets' : 'outlet'}`;
 		}
 
 		if ($selectedCommunity) {
 			if ($selectedCommunity.toString() === 'Multicultural') {
-				msg += ` covering <span class="outlets-filter-msg">Multicultural communitities</span>`;
+				msg += ` covering <span class="filter-selections">Multicultural communitities</span>`;
 			} else {
 				// replace `,` with `, ` or before the last item, `and`
 				const communityList = $selectedCommunity
@@ -41,7 +44,7 @@
 					communityList.length > 1
 						? communityList.slice(0, -1).join(', ') + ' and ' + communityList.slice(-1)
 						: communityList[0];
-				msg += ` covering the <span class="outlets-filter-msg">${formattedCommunityList} ${communityList.length > 1 ? 'communities' : 'community'}</span>`;
+				msg += ` covering the <span class="filter-selections">${formattedCommunityList} ${communityList.length > 1 ? 'communities' : 'community'}</span>`;
 			}
 		}
 
@@ -55,9 +58,9 @@
 					? languageList.slice(0, -1).join(', ') + ' and ' + languageList.slice(-1)
 					: languageList[0];
 			if ($selectedCommunity) {
-				msg += ` and reporting in <span class="outlets-filter-msg">${formattedLanguageList}</span>`;
+				msg += ` and reporting in <span class="filter-selections">${formattedLanguageList}</span>`;
 			} else {
-				msg += ` reporting in <span class="outlets-filter-msg">${formattedLanguageList}</span>`;
+				msg += ` reporting in <span class="filter-selections">${formattedLanguageList}</span>`;
 			}
 		}
 
@@ -92,7 +95,12 @@
 	let currentPage = 0;
 	const itemsPerPage = 20;
 
-	$: paginatedDirectory = $filteredDirectory?.features
+	// Search through cards, by outlet name
+	$: filteredDirectoryBySearch = $filteredDirectory?.features.filter((outlet) =>
+		outlet.properties['Media Outlet'].toLowerCase().includes(searchQuery.toLowerCase())
+	);
+
+	$: paginatedDirectory = filteredDirectoryBySearch
 		.sort((a, b) => a.properties['Media Outlet'].localeCompare(b.properties['Media Outlet']))
 		.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage);
 
@@ -110,109 +118,160 @@
 	}
 </script>
 
-<!-- Intro -->
-<section class="intro">
+<section id="outlet-cards" aria-label="List of media outlets">
+	<!-- Intro text -->
 	<div class="header">
-		<h2 style="margin-top: 0;">NYS Media Directory</h2>
-		{#if !filterMsg}<p style="padding-top: 5px;">
-				Find below information about the {outletCount}
-				outlets. This list includes outlets without a known location and do not appear on the map. Apply
-				filters in the <span class="tab">Search</span> tab to narrow down the results.
+		<!-- {#if !filterMsg}<p>
+				Find below information about all <span style="font-weight: 600;"
+					>{outletCount}
+					outlets</span
+				>
+				in the directory. This list includes outlets without a known location that do not appear on the
+				map. Apply filters in the <span class="tab">Search</span> tab to narrow down the results or search
+				below to see if an outlet is in the list.
+			</p>
+		{/if} -->
+
+		<!-- Message when filter has been applied -->
+		{#if filterMsg}
+			<p style="margin-bottom: 1rem;">
+				<span style="font-family: 'Roboto Condensed'; display: flex; align-items: center; gap: 4px;"
+					><Search /><strong
+						>{[$selectedCommunity, $selectedFormat, $selectedLanguage].filter(Boolean).length >= 2
+							? 'Filters'
+							: 'Filter'} applied:</strong
+					></span
+				>
+				{@html filterMsg}
+			</p>
+		{:else}
+			<p>
+				Find below information about all <span style="font-weight: 600;"
+					>{outletCount}
+					outlets</span
+				>
+				in the directory. This list includes outlets without a known location that do not appear on the
+				map. Apply filters in the <span class="tab">Search</span> tab to narrow down the results or search
+				below to see if an outlet is in the list.
 			</p>
 		{/if}
-		<p style="line-height: 1.4;">{@html filterMsg}</p>
 	</div>
-</section>
 
-<!-- Cards -->
-<section class="cards">
-	{#each paginatedDirectory as outlet}
-		<div class="outlet-card">
-			<!-- Card header row -->
-			<div class="header-row">
-				<p class="outlet-name">{outlet.properties['Media Outlet']}</p>
-				<p class="founded">
-					{#if outlet.properties['Year Founded']}
-						Since {outlet.properties['Year Founded']}
-					{/if}
-				</p>
-			</div>
+	<!-- Search through cards field -->
+	{#if $filteredDirectory.features.length > 1}
+		<div class="search-field">
+			<label for="search-input" class="visually-hidden"
+				>Search by outlet to find if it is in the list</label
+			>
+			<input
+				type="text"
+				id="search-input"
+				placeholder="Search by outlet name"
+				bind:value={searchQuery}
+				aria-label="Search by outlet name"
+			/>
 
-			<!-- Card body row -->
-			<div class="body-row">
-				<!-- Primary format -->
-				<div class="body-line">
-					<p class="category-label">Primary Format</p>
-					<p class="category-value">{outlet.properties['Primary Format']}</p>
-				</div>
-				<hr />
-				<!-- Community -->
-				<div class="body-line">
-					<p class="category-label">
-						{#if outlet.properties['Community'].toString().includes(',')}
-							Communities
-						{:else}
-							Community
-						{/if}
-					</p>
-					<p class="category-value">
-						{outlet.properties['Community'].toString().replaceAll(',', ', ')}
-					</p>
-				</div>
-				<hr />
-				<!-- Language -->
-				<div class="body-line">
-					<p class="category-label">
-						{#if outlet.properties['Language'].toString().includes(',')}
-							Languages
-						{:else}
-							Language
-						{/if}
-					</p>
-					<p class="category-value">
-						{outlet.properties['Language'].toString().replaceAll(',', ', ')}
-					</p>
-				</div>
-			</div>
-
-			<!-- Card footer row -->
-			<div class="footer-row">
-				<!-- Buttons -->
-				<div class="action-btns">
-					{#if outlet.properties['Website']}
-						<a href={outlet.properties['Website']} class="card-btn website-btn" target="_blank"
-							><OpenLink /> Visit website</a
-						>
-					{/if}
-					{#if outlet.geometry.coordinates[0]}<button
-							class="card-btn map-btn"
-							on:click={() => {
-								$selectedOutlet = outlet.properties['Media Outlet'];
-
-								lng = outlet.geometry.coordinates[0];
-								lat = outlet.geometry.coordinates[1];
-
-								outlet.geometry.coordinates[0] !== undefined ? flyTo(10, [lng, lat]) : null;
-							}}><MapPin strokeColor="#41B06E" /> Find on map</button
-						>
-					{/if}
-				</div>
-
-				<!-- City -->
-				<p class="location">
-					{#if outlet.properties['City']}
-						<span style="color: #41B06E;">{outlet.properties['City']}</span>
-					{:else}
-						<span style="color: gray;">Location unavailable</span>
-					{/if}
-				</p>
-			</div>
+			<!-- Show clear search button when text has been entered -->
+			{#if searchQuery}
+				<button
+					on:click={() => (searchQuery = '')}
+					aria-label="Clear search terms"
+					class="clear-form-btn"
+					><CloseCircle fillColor="#7D7C7C" width="20px" height="20px" /></button
+				>
+			{/if}
 		</div>
-	{/each}
-</section>
+	{/if}
 
-<section class="pages">
-	<div class="page-btns-container">
+	<!-- Cards -->
+	<div class="cards">
+		{#each paginatedDirectory as outlet}
+			<div class="outlet-card">
+				<!-- Card header row -->
+				<div class="header-row">
+					<p class="outlet-name">{outlet.properties['Media Outlet']}</p>
+					<p class="founded">
+						{#if outlet.properties['Year Founded']}
+							Since {outlet.properties['Year Founded']}
+						{/if}
+					</p>
+				</div>
+
+				<!-- Card body row -->
+				<div class="body-row">
+					<!-- Primary format -->
+					<div class="body-line">
+						<p class="category-label">Primary Format</p>
+						<p class="category-value">{outlet.properties['Primary Format']}</p>
+					</div>
+					<hr class="outlet-card-divider" />
+					<!-- Community -->
+					<div class="body-line">
+						<p class="category-label">
+							{#if outlet.properties['Community'].toString().includes(',')}
+								Communities
+							{:else}
+								Community
+							{/if}
+						</p>
+						<p class="category-value">
+							{outlet.properties['Community'].toString().replaceAll(',', ', ')}
+						</p>
+					</div>
+					<hr class="outlet-card-divider" />
+					<!-- Language -->
+					<div class="body-line">
+						<p class="category-label">
+							{#if outlet.properties['Language'].toString().includes(',')}
+								Languages
+							{:else}
+								Language
+							{/if}
+						</p>
+						<p class="category-value">
+							{outlet.properties['Language'].toString().replaceAll(',', ', ')}
+						</p>
+					</div>
+				</div>
+
+				<!-- Card footer row -->
+				<div class="footer-row">
+					<!-- Buttons -->
+					<div class="action-btns">
+						{#if outlet.properties['Website']}
+							<a href={outlet.properties['Website']} class="card-btn website-btn" target="_blank"
+								><OpenLink /> Visit website</a
+							>
+						{/if}
+						{#if outlet.geometry.coordinates[0]}<button
+								class="card-btn map-btn"
+								on:click={() => {
+									$selectedOutlet = outlet.properties['Media Outlet'];
+
+									lng = outlet.geometry.coordinates[0];
+									lat = outlet.geometry.coordinates[1];
+
+									outlet.geometry.coordinates[0] !== undefined ? flyTo(10, [lng, lat]) : null;
+								}}><MapPin strokeColor="#41B06E" /> Find on map</button
+							>
+						{/if}
+					</div>
+
+					<!-- City -->
+					<p class="location">
+						{#if outlet.properties['City']}
+							<span style="color: #41B06E;">{outlet.properties['City']}</span>
+						{:else}
+							<span style="color: gray;">Location unavailable</span>
+						{/if}
+					</p>
+				</div>
+			</div>
+		{/each}
+	</div>
+
+	<!-- Page buttons -->
+	<div class="page-btns">
 		<!-- previous button -->
 		<button
 			on:click={scrollToTop}
@@ -221,13 +280,12 @@
 			class:disabled={currentPage === 0}
 		>
 			<LeftArrow />
-			<!-- &lt; -->
 		</button>
 
 		<!-- # of # -->
 		<span
 			><strong>{currentPage + 1}</strong> of
-			<strong>{Math.ceil($filteredDirectory?.features.length / itemsPerPage)}</strong></span
+			<strong>{Math.ceil(filteredDirectoryBySearch.length / itemsPerPage)}</strong></span
 		>
 
 		<!-- next button -->
@@ -236,14 +294,13 @@
 			on:click={() =>
 				(currentPage = Math.min(
 					currentPage + 1,
-					Math.ceil($filteredDirectory?.features.length / itemsPerPage) - 1
+					Math.ceil(filteredDirectoryBySearch.length / itemsPerPage) - 1
 				))}
-			disabled={currentPage === Math.ceil($filteredDirectory?.features.length / itemsPerPage) - 1}
+			disabled={currentPage === Math.ceil(filteredDirectoryBySearch.length / itemsPerPage) - 1}
 			class:disabled={currentPage ===
-				Math.ceil($filteredDirectory?.features.length / itemsPerPage) - 1}
+				Math.ceil(filteredDirectoryBySearch.length / itemsPerPage) - 1}
 		>
 			<RightArrow />
-			<!--&gt;-->
 		</button>
 	</div>
 </section>
@@ -252,9 +309,21 @@
 	.header {
 		border-radius: 1px;
 		color: var(--text-color-black);
-		font-size: 0.8rem;
-		margin-bottom: 1rem;
+		font-size: 0.85rem;
 		padding: 0.25rem;
+	}
+
+	.search-field {
+		margin-top: 5px;
+		margin-bottom: 1rem;
+	}
+
+	.search-field input {
+		width: 100%;
+		padding: 0.5rem;
+		font-size: 1rem;
+		border: 1px solid #ccc;
+		border-radius: 4px;
 	}
 
 	.outlet-card {
@@ -373,14 +442,37 @@
 		transition: 0.5s;
 	}
 
-	.page-btns-container {
+	.page-btns {
 		display: flex;
 		justify-content: center;
 		align-items: center;
 		font-family: 'Roboto Condensed', sans-serif;
 	}
 
-	.page-btns-container button.disabled {
+	.page-btns button.disabled {
 		visibility: hidden;
+	}
+
+	/* Visually hidden label for screen readers */
+	.visually-hidden {
+		position: absolute;
+		width: 1px;
+		height: 1px;
+		padding: 0;
+		margin: -1px;
+		overflow: hidden;
+		clip: rect(0, 0, 0, 0);
+		border: 0;
+	}
+
+	.search-field {
+		position: relative;
+	}
+
+	.clear-form-btn {
+		position: absolute;
+		top: 60%;
+		transform: translateY(-60%);
+		right: 0;
 	}
 </style>
