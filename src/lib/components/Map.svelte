@@ -96,7 +96,7 @@
 		// Geocoder
 		const geocoder = new MapboxGeocoder({
 			accessToken: mapboxgl.accessToken,
-			placeholder: 'Enter NYS address',
+			placeholder: 'Enter city or address',
 			mapboxgl: mapboxgl,
 			// marker: true,
 			marker: {
@@ -500,21 +500,21 @@
 					<p class="popup-category-value">${e.features[0].properties['Primary Format']}</p>
 				</div>
 
-				<hr />
+				<hr class="outlet-card-divider" />
 
 				<div class="popup-row">
 					<p class="popup-category-label">${communityLabelValue}</p>
 					<p class="popup-category-value">${JSON.parse(e.features[0].properties['Community']).join(', ')}</p>
 				</div>
 
-				<hr />
+				<hr class="outlet-card-divider" />
 
 				<div class="popup-row">
 					<p class="popup-category-label">${languageLabelValue}</p>
 					<p class="popup-category-value">${JSON.parse(e.features[0].properties['Language']).join(', ')}</p>
 				</div>
 
-				<hr />
+			<hr class="outlet-card-divider" />
 
 				${linkValue}
 			</div>
@@ -604,16 +604,18 @@
 </svelte:head>
 
 <!-- Map -->
-<section class="map-container">
+<section id="map-container" aria-label="Map of media outlets across New York State">
 	<div class="map" bind:this={mapContainer} />
 </section>
 
 <!-- Container for map elements -->
-<section class="map-elements-container">
+<section id="map-elements-container" aria-label="Map tools and features">
 	<!-- Search -->
 	<div class="geocoder-container">
 		<fieldset>
-			<legend style="width: 80px; text-align: right;">Search by address</legend>
+			<legend style="width: 85px; text-align: right; line-height: 1.15;"
+				>Search by NYS location</legend
+			>
 			<!-- <div class="geocoder-container" tabindex="-1" role="searchbox" aria-label="search"> -->
 		</fieldset>
 	</div>
@@ -667,7 +669,7 @@
 		bottom: 0;
 	}
 
-	.map-elements-container {
+	#map-elements-container {
 		position: absolute;
 		right: 10px;
 		top: 1rem;
@@ -680,6 +682,7 @@
 	hr {
 		border-top: 0.5px solid rgba(0, 0, 0, 0.5);
 		width: 125px;
+		margin: 0.75rem 0;
 	}
 
 	.geocoder-container {
@@ -700,7 +703,7 @@
 	}
 
 	@media only screen and (max-device-width: 512px) {
-		.map-elements-container {
+		#map-elements-container {
 			top: 0;
 		}
 
