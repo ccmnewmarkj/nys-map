@@ -28,11 +28,14 @@
 </script>
 
 <header>
-	<h1>New York State Media Map</h1>
+	<h1 id="sidebar-title">New York State Media Map</h1>
 	<p style="font-size: 0.85rem;">
-		A project of the <a
-			href="https://www.journalism.cuny.edu/centers/center-community-media/advertising-boost-initiative/"
-			>Advertising Boost Initiative</a
+		A project of the <strong
+			><a
+				style="text-decoration: none;"
+				href="https://www.journalism.cuny.edu/centers/center-community-media/advertising-boost-initiative/"
+				>Advertising Boost Initiative</a
+			></strong
 		> at the Center for Community Media
 	</p>
 </header>
@@ -58,7 +61,7 @@
 <!-- Close button -->
 <button
 	class="close-button"
-	aria-label="Close"
+	aria-label="Hide sidebar"
 	on:click|stopPropagation={() => {
 		sidebarVisible = false;
 	}}><CloseIcon /></button

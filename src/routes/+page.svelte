@@ -108,7 +108,7 @@
 <Map bind:sidebarVisible />
 
 <!-- Sidebar -->
-<section class="sidebar-container">
+<section id="sidebar-container" aria-labelledby="sidebar-title">
 	{#if sidebarVisible}
 		<div class="sidebar-content" transition:fade={{ duration: 300 }}>
 			<Sidebar bind:sidebarVisible></Sidebar>

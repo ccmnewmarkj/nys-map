@@ -58,7 +58,7 @@
 
 	<p class="content">
 		When an outlet is selected, any applied filters above will be cleared. The map will then zoom in
-		to the outlet's location. Select the highlighted marker for more details.
+		to the outlet's location. Select the highlighted marker for more details about the outlet.
 	</p>
 
 	<form>

@@ -1,4 +1,4 @@
-import { writable, derived } from "svelte/store";
+import { writable } from 'svelte/store';
 
 export let map = writable();
 export let popup = writable(); // Map popup
