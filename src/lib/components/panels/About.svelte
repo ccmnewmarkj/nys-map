@@ -4,12 +4,12 @@
 	// Import icon components
 	import MapPin from '$lib/components/icons/MapPin.svelte';
 
-	// CCM logo
-	import jSchoolLogo from '$lib/images/CCM+TheAdvertisingBoostInitiative.png';
+	// Logos
+	import ccmABILogo from '$lib/images/CCM+TheAdvertisingBoostInitiative.png';
 	import newmarkJLogo from '$lib/images/NewmarkJ-logo.png';
 </script>
 
-<section class="about-body">
+<section id="about-body" aria-labelledby="about-btn">
 	<p>
 		This map of <span style="font-weight: 800;"
 			>community media outlets in New York State, north of New York City</span
@@ -26,8 +26,8 @@
 		outlets under the <span class="tab">Outlets</span> tab -->
 	</p>
 	<p class="callout" style="margin-top: 1rem;">
-		For community media outlets in New York City, visit CCM's <a
-			href="http://ccm-directory.journalism.cuny.edu">Many Voices, One City</a
+		For community media outlets in New York City, visit CCM's <strong
+			><a href="http://ccm-directory.journalism.cuny.edu">Many Voices, One City</a></strong
 		> directory.
 	</p>
 
@@ -61,7 +61,7 @@
 	</p>
 </section>
 
-<section class="about-footer">
+<section id="about-footer" aria-label="About the Advertising Boost Initiative">
 	<p>
 		The <strong
 			><a
@@ -73,38 +73,45 @@
 		clear to marketing directors and communications staff at New York departments and agencies just how
 		vital a role community media plays in civic life.
 	</p>
+	<hr />
 	<a
 		href="https://www.journalism.cuny.edu/centers/center-community-media/advertising-boost-initiative/"
 		><img
-			src={jSchoolLogo}
+			src={ccmABILogo}
 			alt="Center for Community Media and Advertising Boost Initiative logo"
 			width="325"
 			height="auto"
 		/></a
 	>
+
 	<a href="https://www.journalism.cuny.edu/"
-		><img src={newmarkJLogo} alt="Newmark J-School logo" width="310" height="auto" /></a
+		><img
+			style="padding-top: 1rem;"
+			src={newmarkJLogo}
+			alt="Newmark J-School logo"
+			width="310"
+			height="auto"
+		/></a
 	>
 </section>
 
 <style>
-	.about-body {
+	#about-body {
 		padding: 1rem;
-	}
-
-	.about-footer {
-		margin-top: 1rem;
-		padding: 1rem 1rem 0.5rem 1rem;
-		background-color: var(--light-gray);
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		row-gap: 20px;
-		font-size: 0.85rem;
 	}
 
 	p:not(:first-child) {
 		margin-top: 12px;
+	}
+
+	#about-footer {
+		padding: 1rem;
+		background-color: var(--light-gray);
+		/* display: flex;
+		flex-direction: column;
+		align-items: center;
+		row-gap: 20px; */
+		font-size: 0.85rem;
 	}
 
 	@media only screen and (max-device-width: 512px) {
