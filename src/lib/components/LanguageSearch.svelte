@@ -34,7 +34,7 @@
 			} else {
 				languageHeader = `
 			Search by ${languageList.length - 1} more ${languageList.length - 1 > 1 ? 'languages' : 'language'}
-			<span style="font-family: 'DM Sans', sans-serif; text-transform: none; display: block; font-weight: 400; font-size: 0.8rem; color: var(--gray);">Searching by more than one language will show only outlets with content in all selected languages, not outlets in just one of the languages.</span>
+			<span style="font-family: 'DM Sans', sans-serif; text-transform: none; display: block; font-weight: 400; font-size: 0.8rem; color: var(--gray);">Searching by two or more languages will show outlets with content in all the selected languages, not just one of them.</span>
 			`;
 			}
 		} else if (languageList.length === 1) {
