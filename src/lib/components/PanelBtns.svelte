@@ -18,7 +18,9 @@
 </script>
 
 <div class="btn-container">
+	<!-- About -->
 	<button
+		id="about-btn"
 		class:active={$aboutPanelVisible}
 		on:click|stopPropagation={() => {
 			$aboutPanelVisible = true;
@@ -32,7 +34,10 @@
 			}
 		}}><InfoIcon />About</button
 	>
+
+	<!-- Search -->
 	<button
+		id="search-btn"
 		class:active={$searchPanelVisible}
 		on:click|stopPropagation={() => {
 			$aboutPanelVisible = false;
@@ -46,7 +51,10 @@
 			}
 		}}><SearchIcon />Search</button
 	>
+
+	<!-- Outlets -->
 	<button
+		id="outlet-btn"
 		class:active={$outletPanelVisible}
 		on:click|stopPropagation={() => {
 			$aboutPanelVisible = false;
