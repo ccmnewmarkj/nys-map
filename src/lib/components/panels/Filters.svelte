@@ -41,45 +41,18 @@
 			$map.getSource('outlets').setData($directoryData);
 		}
 	}
-
-	// Transition effect for accordion
-	import { slide } from 'svelte/transition';
-	let isOpen = false;
 </script>
 
 <!-- Intro -->
-<section>
-	<p>Apply one or more of the three filters to narrow down your search.</p>
-	<details style="margin-top: 0.5rem;" bind:open={isOpen}>
-		<summary
-			><p>
-				Selecting an option from a filter will modify all three filters to show only the remaining
-				options.
-			</p></summary
-		>
+<section id="search-filters" aria-labelledby="search-btn">
+	<p style="font-size: 0.85rem;">
+		Select options from one or more of the three filters to narrow down your search. Once you make a
+		selection, the three filters will only show the remaining options based on the option(s) you
+		have chosen.
+	</p>
 
-		{#if isOpen}
-			<div class="content" in:slide={{ duration: 750 }}>
-				<p>For example, if you select "African American" as the community:</p>
-				<ul>
-					<li>
-						You will only be able to additionally select "Latino" from the comminity filter because
-						just that combination is found among outlets in the directory that serve the African
-						American community.
-					</li>
-					<li>
-						Likewise, the format and language filters will only show options found among African
-						American media outlets. Or, if "Latino" is also selected, those two filters will show
-						options for only the outlets that serve both two communities.
-					</li>
-				</ul>
-			</div>
-		{/if}
-	</details>
-</section>
+	<!-- Filters -->
 
-<!-- Filters -->
-<section style="margin-top: 0.5rem;">
 	<!-- Filter by format -->
 	<div class="filter">
 		<FormatSearch />
@@ -94,13 +67,13 @@
 	<div class="filter">
 		<LanguageSearch />
 	</div>
-</section>
 
-<hr />
+	<hr />
 
-<!-- Outlet search -->
-<section class="filter">
-	<OutletSearch />
+	<!-- Outlet search -->
+	<div class="filter">
+		<OutletSearch />
+	</div>
 </section>
 
 <style>
@@ -113,22 +86,22 @@
 	}
 
 	hr {
-		margin-top: 1.5rem;
+		/* margin-top: 1.5rem; */
 		width: 90%;
 		margin-left: auto;
 		margin-right: auto;
 		border-top: 0.5px solid rgba(0, 0, 0, 0.2);
 	}
 
-	details > summary {
+	/* details > summary {
 		font-size: 0.8rem;
 		background-color: var(--alice-blue-light);
 		cursor: pointer;
 		padding: 0.5rem 0rem 0.5rem 0.5rem;
-	}
+	} */
 
 	/* two "cols" with arrow and text: https://stackoverflow.com/questions/51131818/how-to-vertically-align-detailss-arrow-with-summarys-content */
-	summary > p {
+	/* summary > p {
 		display: inline-block;
 		width: calc(100% - 50px);
 		vertical-align: top;
@@ -150,5 +123,5 @@
 		font-size: 0.75rem;
 		background-color: rgba(216, 224, 232, 0.15);
 		padding: 0 10px;
-	}
+	} */
 </style>
