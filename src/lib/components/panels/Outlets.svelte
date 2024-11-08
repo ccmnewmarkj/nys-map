@@ -6,7 +6,8 @@
 		selectedFormat,
 		selectedCommunity,
 		selectedLanguage,
-		selectedOutlet
+		selectedOutlet,
+		directoryData
 	} from '$lib/stores.js';
 
 	// Import icon components
@@ -15,53 +16,90 @@
 	import LeftArrow from '$lib/components/icons/LeftArrow.svelte';
 	import RightArrow from '$lib/components/icons/RightArrow.svelte';
 	import CloseCircle from '$lib/components/icons/CloseCircle.svelte';
-	import Search from '$lib/components/icons/Search.svelte';
+	import SearchIcon from '$lib/components/icons/Search.svelte';
+	import MediaFormatIcon from '$lib/components/icons/MediaFormat.svelte';
+	import PeopleIcon from '$lib/components/icons/People.svelte';
+	import LanguagesIcon from '$lib/components/icons/Languages.svelte';
 
 	export let outletCount;
 
 	let filterMsg; // When a filter has been applied
 	let searchQuery = ''; // Search through cards via outlet name
 
-	function generateFilterMsg() {
-		let msg = `Showing ${outletCount} `;
+	// function generateFilterTags() {
+	// 	let msg = `Showing ${outletCount} `;
 
+	// 	// When format selected
+	// 	if ($selectedFormat) {
+	// 		msg += `<span class="selected-filter-tag">${$selectedFormat.replace('Digital only', 'Digital-only outlet').replace('Radio', 'Radio station').replace('TV', 'TV station').toLowerCase()}${outletCount > 1 ? 's' : ''}</span>`;
+	// 	} else {
+	// 		msg += `${outletCount > 1 ? 'outlets' : 'outlet'}`;
+	// 	}
+
+	// 	// When community selected
+	// 	if ($selectedCommunity) {
+	// 		if ($selectedCommunity.toString() === 'Multicultural') {
+	// 			msg += ` covering <span class="selected-filter-tag">Multicultural communitities</span>`;
+	// 		} else {
+	// 			// replace `,` with `, ` or before the last item, `and`
+	// 			const communityList = $selectedCommunity
+	// 				.toString()
+	// 				.split(',')
+	// 				.map((item) => item.trim());
+	// 			const formattedCommunityList =
+	// 				communityList.length > 1
+	// 					? communityList.slice(0, -1).join(', ') + ' and ' + communityList.slice(-1)
+	// 					: communityList[0];
+	// 			msg += ` covering the <span class="selected-filter-tag">${formattedCommunityList} ${communityList.length > 1 ? 'communities' : 'community'}</span>`;
+	// 		}
+	// 	}
+
+	// 	// When language selected
+	// 	if ($selectedLanguage) {
+	// 		const languageList = $selectedLanguage
+	// 			.toString()
+	// 			.split(',')
+	// 			.map((item) => item.trim());
+	// 		const formattedLanguageList =
+	// 			languageList.length > 1
+	// 				? languageList.slice(0, -1).join(', ') + ' and ' + languageList.slice(-1)
+	// 				: languageList[0];
+	// 		if ($selectedCommunity) {
+	// 			msg += ` and reporting in <span class="selected-filter-tag">${formattedLanguageList}</span>`;
+	// 		} else {
+	// 			msg += ` reporting in <span class="selected-filter-tag">${formattedLanguageList}</span>`;
+	// 		}
+	// 	}
+
+	// 	return msg;
+	// }
+
+	function generateFilterTags() {
+		let msg = '';
+
+		// When format selected
 		if ($selectedFormat) {
-			msg += `<span class="filter-selections">${$selectedFormat.replace('Digital only', 'Digital-only outlet').replace('Radio', 'Radio station').replace('TV', 'TV station').toLowerCase()}${outletCount > 1 ? 's' : ''}</span>`;
-		} else {
-			msg += `${outletCount > 1 ? 'outlets' : 'outlet'}`;
+			// Icons from Google Fonts
+			msg += `<span class="selected-filter-tag"><svg xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 -960 960 960" width="18px" fill="#686D76"><path d="M160-80q-17 0-28.5-11.5T120-120v-558q0-15 6-25.5t20-16.5l400-160q20-8 37 5.5t17 34.5v120h40q17 0 28.5 11.5T680-680v120h-80v-80H200v480h207l80 80H160Zm200-640h160v-62l-160 62ZM680-80q-83 0-141.5-58.5T480-280q0-83 58.5-141.5T680-480q83 0 141.5 58.5T880-280q0 83-58.5 141.5T680-80Zm-50-100 160-100-160-100v200Zm-430 20v-480 480Z"/></svg>
+ ${$selectedFormat}</span>`;
 		}
 
 		if ($selectedCommunity) {
-			if ($selectedCommunity.toString() === 'Multicultural') {
-				msg += ` covering <span class="filter-selections">Multicultural communitities</span>`;
-			} else {
-				// replace `,` with `, ` or before the last item, `and`
-				const communityList = $selectedCommunity
-					.toString()
-					.split(',')
-					.map((item) => item.trim());
-				const formattedCommunityList =
-					communityList.length > 1
-						? communityList.slice(0, -1).join(', ') + ' and ' + communityList.slice(-1)
-						: communityList[0];
-				msg += ` covering the <span class="filter-selections">${formattedCommunityList} ${communityList.length > 1 ? 'communities' : 'community'}</span>`;
-			}
-		}
-
-		if ($selectedLanguage) {
-			const languageList = $selectedLanguage
+			// replace `,` with `, ` or before the last item, `and`
+			const communityList = $selectedCommunity
 				.toString()
 				.split(',')
 				.map((item) => item.trim());
-			const formattedLanguageList =
-				languageList.length > 1
-					? languageList.slice(0, -1).join(', ') + ' and ' + languageList.slice(-1)
-					: languageList[0];
-			if ($selectedCommunity) {
-				msg += ` and reporting in <span class="filter-selections">${formattedLanguageList}</span>`;
-			} else {
-				msg += ` reporting in <span class="filter-selections">${formattedLanguageList}</span>`;
-			}
+			const formattedCommunityList =
+				communityList.length > 1
+					? communityList.slice(0, -1).join(', ') + ' and ' + communityList.slice(-1)
+					: communityList[0];
+			msg += `<span class="selected-filter-tag"><svg xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 -960 960 960" width="18px" fill="#686D76"><path
+		d="M40-160v-112q0-34 17.5-62.5T104-378q62-31 126-46.5T360-440q66 0 130 15.5T616-378q29 15 46.5 43.5T680-272v112H40Zm720 0v-120q0-44-24.5-84.5T666-434q51 6 96 20.5t84 35.5q36 20 55 44.5t19 53.5v120H760ZM360-480q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47Zm400-160q0 66-47 113t-113 47q-11 0-28-2.5t-28-5.5q27-32 41.5-71t14.5-81q0-42-14.5-81T544-792q14-5 28-6.5t28-1.5q66 0 113 47t47 113ZM120-240h480v-32q0-11-5.5-20T580-306q-54-27-109-40.5T360-360q-56 0-111 13.5T140-306q-9 5-14.5 14t-5.5 20v32Zm240-320q33 0 56.5-23.5T440-640q0-33-23.5-56.5T360-720q-33 0-56.5 23.5T280-640q0 33 23.5 56.5T360-560Zm0 320Zm0-400Z" /></svg>${formattedCommunityList}</span>`;
+		}
+
+		if ($selectedLanguage) {
+			msg += `<span class="selected-filter-tag"><svg xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 -960 960 960" width="18px" fill="#686D76"><path d="m476-80 182-480h84L924-80h-84l-43-122H603L560-80h-84ZM160-200l-56-56 202-202q-35-35-63.5-80T190-640h84q20 39 40 68t48 58q33-33 68.5-92.5T484-720H40v-80h280v-80h80v80h280v80H564q-21 72-63 148t-83 116l96 98-30 82-122-125-202 201Zm468-72h144l-72-204-72 204Z"/></svg>${$selectedLanguage}</span>`;
 		}
 
 		return msg;
@@ -72,7 +110,7 @@
 	} else if (outletCount === 0) {
 		filterMsg = 'No outlets found';
 	} else {
-		filterMsg = generateFilterMsg();
+		filterMsg = generateFilterTags();
 	}
 
 	// Zoom to outlet location on map when outlet name is selected
@@ -101,11 +139,12 @@
 	);
 
 	$: paginatedDirectory = filteredDirectoryBySearch
-		.sort((a, b) => a.properties['Media Outlet'].localeCompare(b.properties['Media Outlet']))
+		//.sort((a, b) => a.properties['Media Outlet'].localeCompare(b.properties['Media Outlet']))
 		.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage);
 
 	// Scroll to top of section when going between "pages"
 	import { onMount } from 'svelte';
+	import filter from 'svelte-select/filter';
 	let sectionRef;
 	onMount(() => {
 		sectionRef = document.querySelector('.header');
@@ -120,39 +159,30 @@
 
 <section id="outlet-cards" aria-label="List of media outlets">
 	<!-- Intro text -->
-	<div class="header">
-		<!-- {#if !filterMsg}<p>
-				Find below information about all <span style="font-weight: 600;"
-					>{outletCount}
-					outlets</span
-				>
-				in the directory. This list includes outlets without a known location that do not appear on the
-				map. Apply filters in the <span class="tab">Search</span> tab to narrow down the results or search
-				below to see if an outlet is in the list.
-			</p>
-		{/if} -->
-
+	<div class="header" class:filters-active={filterMsg}>
 		<!-- Message when filter has been applied -->
 		{#if filterMsg}
-			<p style="margin-bottom: 1rem;">
+			<p>
 				<span style="font-family: 'Roboto Condensed'; display: flex; align-items: center; gap: 4px;"
-					><Search /><strong
+					><SearchIcon /><strong
 						>{[$selectedCommunity, $selectedFormat, $selectedLanguage].filter(Boolean).length >= 2
 							? 'Filters'
 							: 'Filter'} applied:</strong
-					></span
+					>
+					Showing {outletCount} out of {$directoryData?.features.length} outlets</span
 				>
+			</p>
+			<p style="margin-top: 5px; display: flex; flex-wrap: wrap; row-gap: 4px; column-gap: 6px;">
 				{@html filterMsg}
 			</p>
 		{:else}
-			<p>
-				Find below information about all <span style="font-weight: 600;"
+			<p style="margin-bottom: 5px;">
+				This list of all <span style="font-weight: 600;"
 					>{outletCount}
 					outlets</span
 				>
-				in the directory. This list includes outlets without a known location that do not appear on the
-				map. Apply filters in the <span class="tab">Search</span> tab to narrow down the results or search
-				below to see if an outlet is in the list.
+				includes those without a known location and do not appear on the map. Apply filters in the
+				<span class="tab">Search</span> tab to narrow down the list or search for an outlet below.
 			</p>
 		{/if}
 	</div>
@@ -161,14 +191,14 @@
 	{#if $filteredDirectory.features.length > 1}
 		<div class="search-field">
 			<label for="search-input" class="visually-hidden"
-				>Search by outlet to find if it is in the list</label
+				>Enter outlet name to find it in the list</label
 			>
 			<input
 				type="text"
 				id="search-input"
-				placeholder="Search by outlet name"
+				placeholder="Search cards by outlet name"
 				bind:value={searchQuery}
-				aria-label="Search by outlet name"
+				aria-label="Search cards by outlet name"
 			/>
 
 			<!-- Show clear search button when text has been entered -->
@@ -198,20 +228,22 @@
 				</div>
 
 				<!-- Card body row -->
-				<div class="body-row">
+				<div class="body-container">
 					<!-- Primary format -->
-					<div class="body-line">
-						<p class="category-label">Primary Format</p>
+					<div class="body-row">
+						<p class="category-label">
+							<MediaFormatIcon width="14px" height="14px" /> Primary Format
+						</p>
 						<p class="category-value">{outlet.properties['Primary Format']}</p>
 					</div>
 					<hr class="outlet-card-divider" />
 					<!-- Community -->
-					<div class="body-line">
+					<div class="body-row">
 						<p class="category-label">
 							{#if outlet.properties['Community'].toString().includes(',')}
-								Communities
+								<PeopleIcon width="14px" height="14px" /> Communities
 							{:else}
-								Community
+								<PeopleIcon width="14px" height="14px" /> Community
 							{/if}
 						</p>
 						<p class="category-value">
@@ -220,12 +252,12 @@
 					</div>
 					<hr class="outlet-card-divider" />
 					<!-- Language -->
-					<div class="body-line">
+					<div class="body-row">
 						<p class="category-label">
 							{#if outlet.properties['Language'].toString().includes(',')}
-								Languages
+								<LanguagesIcon width="14px" height="14px" /> Languages
 							{:else}
-								Language
+								<LanguagesIcon width="14px" height="14px" /> Language
 							{/if}
 						</p>
 						<p class="category-value">
@@ -313,9 +345,16 @@
 		padding: 0.25rem;
 	}
 
-	.search-field {
-		margin-top: 5px;
+	.filters-active {
+		background-color: var(--alice-blue-light);
+		padding: 0.75rem;
 		margin-bottom: 1rem;
+		border-radius: 3px;
+	}
+
+	.search-field {
+		margin-top: 0;
+		margin-bottom: 2rem;
 	}
 
 	.search-field input {
@@ -330,7 +369,7 @@
 		background-color: var(--white-blue);
 		border: 1px solid #dee2e6;
 		border-radius: 3px;
-		margin-bottom: 2rem;
+		margin-bottom: 1.75rem;
 		box-shadow: 1px 1px 3px 0px rgba(0, 0, 0, 0.1);
 	}
 
@@ -359,25 +398,27 @@
 		padding: 0.4rem 0.5rem 0.35rem 0.5rem;
 	}
 
-	.body-row {
-		font-size: 0.85rem;
+	.body-container {
 		padding: 0.25rem 0.5rem;
 	}
 
-	.body-line {
+	.body-row {
 		display: flex;
 		justify-content: space-between;
-		align-items: baseline;
+		align-items: center;
+		font-size: 0.85rem;
 	}
 
 	.category-label {
-		font-weight: 600;
+		/* font-weight: 600; */
 		font-family: 'Roboto Condensed', 'sans-serif';
-		font-size: 0.7rem;
-		text-transform: uppercase;
+		/* text-transform: uppercase; */
 		line-height: 1;
-		color: #999999;
+		color: var(--gray);
 		flex-basis: 50%;
+		display: flex;
+		align-items: center;
+		gap: 4px;
 	}
 
 	.category-value {
@@ -417,7 +458,8 @@
 		display: flex;
 		align-items: center;
 		gap: 3px;
-		font-family: 'DM Sans', sans-serif;
+		/* font-family: 'DM Sans', sans-serif; */
+		font-family: 'Roboto Condensed', sans-serif;
 		text-align: left;
 		line-height: 1;
 	}
