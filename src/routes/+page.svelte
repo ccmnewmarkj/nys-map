@@ -48,6 +48,13 @@
 					return obj;
 				})
 				.filter((d) => d.properties['Status'] === 'Active')
+				// When sorting only, remove "The ", "La ", or "El " from the beginning of outlet name for alphabetizing
+				.sort((a, b) => {
+					const nameA = a.properties['Media Outlet'].replace(/^(The|La|El)\s+/i, '');
+					const nameB = b.properties['Media Outlet'].replace(/^(The|La|El)\s+/i, '');
+
+					return nameA.localeCompare(nameB);
+				})
 		});
 
 		// Set filteredDirectory to include all outlets as its initial state
@@ -129,8 +136,8 @@
 	.sidebar-content {
 		position: relative;
 		max-width: 375px;
-		max-height: calc(100vh - 4rem);
-		max-height: calc(100svh - 4rem);
+		max-height: calc(100vh - 3rem);
+		max-height: calc(100svh - 3rem);
 		border-radius: 5px;
 		background-color: rgba(255, 255, 255, 0.85);
 		top: 0;

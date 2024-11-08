@@ -13,7 +13,7 @@
 		selectedLanguage
 	} from '$lib/stores.js';
 
-	const outletNames = $directoryData.features?.map((d) => d.properties['Media Outlet'])?.sort();
+	const outletNames = $directoryData.features?.map((d) => d.properties['Media Outlet']);
 
 	// Set variable for selected outlet name
 	let value;
