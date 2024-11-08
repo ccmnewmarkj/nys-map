@@ -42,19 +42,28 @@
 
 	// Text above filter dropdown
 	let formatHeader;
-	$: if ($selectedFormat) {
-		if (formatList.length > 1) {
-			formatHeader = `Search from ${formatList.length} formats`;
-		} else if (formatList.length === 1) {
-			formatHeader = `<span style="font-family: 'DM Sans', sans-serif; text-transform: none; display: block; font-weight: 400; font-size: 0.8rem; color: var(--gray);">Clear the selection to choose another format</span>`;
-		}
-	} else {
-		formatHeader =
-			// formatList.length > 1
-			// 	? `Search from ${formatList.length} formats`
-			// 	: `Search from ${formatList.length} format`;
-			`Search by primary format <span style="font-weight: 400;">(${formatList.length} total)</span>`;
-	}
+	const formatIcon = `<svg xmlns="http://www.w3.org/2000/svg" height="15px" viewBox="0 -960 960 960" width="15px" fill="#686D76"><path d="M160-80q-17 0-28.5-11.5T120-120v-558q0-15 6-25.5t20-16.5l400-160q20-8 37 5.5t17 34.5v120h40q17 0 28.5 11.5T680-680v120h-80v-80H200v480h207l80 80H160Zm200-640h160v-62l-160 62ZM680-80q-83 0-141.5-58.5T480-280q0-83 58.5-141.5T680-480q83 0 141.5 58.5T880-280q0 83-58.5 141.5T680-80Zm-50-100 160-100-160-100v200Zm-430 20v-480 480Z"/></svg>`;
+
+	$: formatHeader = $selectedFormat
+		? `<span class="filter-field-label" style="color: var(--gray);">
+					${formatIcon} 
+					No additional formats can be selected
+				</span>
+				<p class="filter-field-description">
+					Only 1 format can be chosen at a time. To choose another one, remove the selection.
+				</p>`
+		: `<span class="filter-field-label">${formatIcon} Search by primary format <span style="font-weight: 400;">(${formatList.length} total)</span></span>`;
+
+	// $: formatHeader = $selectedFormat
+	// 	? formatList.length > 1
+	// 		? `<span class="filter-field-label">${formatIcon} Search from ${formatList.length} formats</span>`
+	// 		: `<span class="filter-field-label" style="color: var(--gray);">
+	// 				${formatIcon} No additional formats can be selected
+	// 			</span>
+	// 			<p class="filter-field-description">
+	// 				Remove the selection to choose another format.
+	// 			</p>`
+	// 	: `<span class="filter-field-label">${formatIcon} Search by primary format <span style="font-weight: 400;">(${formatList.length} total)</span></span>`;
 
 	// Clear/reset selected filter when outlet is selected
 	$: if ($selectedOutlet) {
@@ -97,7 +106,6 @@
 
 	.filter-name {
 		font-weight: 800;
-		/* text-transform: uppercase; */
 		font-size: 0.85rem;
 	}
 </style>

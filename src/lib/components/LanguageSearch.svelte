@@ -27,28 +27,27 @@
 
 	// Text above filter dropdown
 	let languageHeader;
-	$: if ($selectedLanguage) {
-		if (languageList.length > 1) {
-			if (languageList.length - value.length === 0) {
-				languageHeader = `<span style="color: var(--gray);">No additional languages available</span>`;
-			} else {
-				languageHeader = `
-			Search by ${languageList.length - 1} more ${languageList.length - 1 > 1 ? 'languages' : 'language'}
-			<span style="font-family: 'DM Sans', sans-serif; text-transform: none; display: block; font-weight: 400; font-size: 0.8rem; color: var(--gray);">Searching by two or more languages will show outlets with content in all the selected languages, not just one of them.</span>
-			`;
-			}
-		} else if (languageList.length === 1) {
-			languageHeader = `<span style="color: var(--gray);">No additional languages available</span>`;
-		}
-	} else {
-		languageHeader =
-			// languageList.length > 1
-			// 	? `Search from ${languageList.length} languages`
-			// 	: `Search from ${languageList.length} language`;
-			`
-			Search by language <span style="font-weight: 400;">(${languageList.length} total)</span>
-			`;
-	}
+	const languageIcon = `<svg xmlns="http://www.w3.org/2000/svg" height="15px" viewBox="0 -960 960 960" width="15px" fill="#686D76"><path
+		d="m476-80 182-480h84L924-80h-84l-43-122H603L560-80h-84ZM160-200l-56-56 202-202q-35-35-63.5-80T190-640h84q20 39 40 68t48 58q33-33 68.5-92.5T484-720H40v-80h280v-80h80v80h280v80H564q-21 72-63 148t-83 116l96 98-30 82-122-125-202 201Zm468-72h144l-72-204-72 204Z"
+	/></svg
+>
+`;
+
+	$: languageHeader = $selectedLanguage
+		? languageList.length > 1
+			? languageList.length - value.length === 0
+				? `<span class="filter-field-label" style="color: var(--gray);">${languageIcon} No additional languages available</span>`
+				: `
+					<span class="filter-field-label">
+						${languageIcon} Search by language <span style="font-weight: 400;">(${languageList.length - value.length} more)</span></span>
+					<p class="filter-field-description">
+						Selecting more than 1 language will show outlets that have content in all of those languages.
+					</p>
+				  `
+			: `<span class="filter-field-label" style="color: var(--gray);">${languageIcon} No additional languages available</span>`
+		: `
+			<span class="filter-field-label">${languageIcon} Search by language <span style="font-weight: 400;">(${languageList.length} total)</span></span>
+		  `;
 
 	// Clear/reset selected filter when outlet is selected
 	$: if ($selectedOutlet) {
@@ -58,8 +57,8 @@
 </script>
 
 <form>
-	<label for="language-search" class="filter-name"
-		><span class:active={$selectedLanguage}>{@html languageHeader}</span></label
+	<label for="language-search" class="filter-name">
+		<span class:active={$selectedLanguage}>{@html languageHeader}</span></label
 	>
 	<Select
 		id="language-search"
