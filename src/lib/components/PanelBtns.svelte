@@ -106,6 +106,12 @@
 		cursor: auto;
 	}
 
+	/* Add hover effect to buttons that are not active */
+	button:not(.active):hover {
+		background-color: var(--alice-blue);
+		transition: 0.5s;
+	}
+
 	.badge-count {
 		display: flex;
 		justify-content: center;
