@@ -57,9 +57,6 @@
 				})
 		});
 
-		// Set filteredDirectory to include all outlets as its initial state
-		filteredDirectory.set($directoryData);
-
 		// Check for duplicate coordinates
 		$directoryData.features.forEach((d) => {
 			longitudeValue = d.properties.Longitude;
@@ -80,6 +77,9 @@
 				d.properties.duplicateCoords = false;
 			}
 		});
+
+		// Set filteredDirectory to include all outlets as its initial state
+		filteredDirectory.set($directoryData);
 
 		// COUNTIES
 		// Add centroid point for polygon labels

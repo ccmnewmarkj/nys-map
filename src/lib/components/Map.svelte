@@ -33,7 +33,7 @@
 	const centerMap = { lng: -75.9, lat: 42.9 };
 
 	mapboxgl.accessToken =
-		'pk.eyJ1IjoiamVuY2hlIiwiYSI6ImNsdDlhNWNtdTBnOXEybW5wMmxxMDRneGMifQ.-aAXBbQZGsiJeZ-zvOXJQA';
+		'pk.eyJ1IjoiamNjY20iLCJhIjoiY2xwdW9jY3IwMGt5ZTJ2b2pnMHFnNW5uciJ9.yU00BX66GK493iePPjtt3Q';
 
 	// Restrict panning to bounds
 	const mapBounds = [
@@ -612,7 +612,7 @@
 <!-- Container for map elements -->
 <section id="map-elements-container" aria-label="Map tools and features">
 	<!-- Search -->
-	<div class="geocoder-container">
+	<div class="map-elements geocoder-container">
 		<fieldset>
 			<legend style="width: 85px; text-align: right; line-height: 1.15;"
 				>Search by NYS location</legend
@@ -622,7 +622,7 @@
 	</div>
 
 	<!-- Toggle polygon filters -->
-	<fieldset class="toggle-container">
+	<fieldset class="map-elements toggle-container">
 		<legend class="sr-only">Geographic boundaries</legend>
 
 		<PolygonToggle bind:checked={showCounties} polygonType="Counties" />
@@ -630,10 +630,10 @@
 		<PolygonToggle bind:checked={showRegions} polygonType="Regions" />
 	</fieldset>
 
-	<hr />
+	<hr class="map-elements" style="top: 8.5rem;" />
 
 	<!-- Legend -->
-	<div class="legend-container">
+	<div class="map-elements legend-container">
 		<Legend />
 	</div>
 
@@ -671,14 +671,9 @@
 		bottom: 0;
 	}
 
-	#map-elements-container {
+	.map-elements {
 		position: absolute;
 		right: 10px;
-		top: 1rem;
-		z-index: 1;
-		display: flex;
-		flex-direction: column;
-		align-items: flex-end;
 	}
 
 	hr {
@@ -720,10 +715,12 @@
 		display: flex;
 		flex-direction: column;
 		align-items: flex-end;
+		top: 4rem;
 	}
 
 	.legend-container {
 		margin-top: 0.25rem;
+		top: 10rem;
 	}
 
 	/* reset button */
