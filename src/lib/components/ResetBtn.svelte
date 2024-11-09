@@ -7,6 +7,7 @@
 
 <button
 	class="reset-map"
+	aria-label="Reset map to initial position"
 	on:click|stopPropagation={() => {
 		$map.flyTo({
 			center: [centerMap.lng, centerMap.lat],

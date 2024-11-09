@@ -26,54 +26,6 @@
 	let filterMsg; // When a filter has been applied
 	let searchQuery = ''; // Search through cards via outlet name
 
-	// function generateFilterTags() {
-	// 	let msg = `Showing ${outletCount} `;
-
-	// 	// When format selected
-	// 	if ($selectedFormat) {
-	// 		msg += `<span class="selected-filter-tag">${$selectedFormat.replace('Digital only', 'Digital-only outlet').replace('Radio', 'Radio station').replace('TV', 'TV station').toLowerCase()}${outletCount > 1 ? 's' : ''}</span>`;
-	// 	} else {
-	// 		msg += `${outletCount > 1 ? 'outlets' : 'outlet'}`;
-	// 	}
-
-	// 	// When community selected
-	// 	if ($selectedCommunity) {
-	// 		if ($selectedCommunity.toString() === 'Multicultural') {
-	// 			msg += ` covering <span class="selected-filter-tag">Multicultural communitities</span>`;
-	// 		} else {
-	// 			// replace `,` with `, ` or before the last item, `and`
-	// 			const communityList = $selectedCommunity
-	// 				.toString()
-	// 				.split(',')
-	// 				.map((item) => item.trim());
-	// 			const formattedCommunityList =
-	// 				communityList.length > 1
-	// 					? communityList.slice(0, -1).join(', ') + ' and ' + communityList.slice(-1)
-	// 					: communityList[0];
-	// 			msg += ` covering the <span class="selected-filter-tag">${formattedCommunityList} ${communityList.length > 1 ? 'communities' : 'community'}</span>`;
-	// 		}
-	// 	}
-
-	// 	// When language selected
-	// 	if ($selectedLanguage) {
-	// 		const languageList = $selectedLanguage
-	// 			.toString()
-	// 			.split(',')
-	// 			.map((item) => item.trim());
-	// 		const formattedLanguageList =
-	// 			languageList.length > 1
-	// 				? languageList.slice(0, -1).join(', ') + ' and ' + languageList.slice(-1)
-	// 				: languageList[0];
-	// 		if ($selectedCommunity) {
-	// 			msg += ` and reporting in <span class="selected-filter-tag">${formattedLanguageList}</span>`;
-	// 		} else {
-	// 			msg += ` reporting in <span class="selected-filter-tag">${formattedLanguageList}</span>`;
-	// 		}
-	// 	}
-
-	// 	return msg;
-	// }
-
 	function generateFilterTags() {
 		let msg = '';
 
@@ -306,6 +258,7 @@
 	<div class="page-btns">
 		<!-- previous button -->
 		<button
+			aria-label="Previous page of outlets"
 			on:click={scrollToTop}
 			on:click={() => (currentPage = Math.max(currentPage - 1, 0))}
 			disabled={currentPage === 0}
@@ -322,6 +275,7 @@
 
 		<!-- next button -->
 		<button
+			aria-label="Next page of outlets"
 			on:click={scrollToTop}
 			on:click={() =>
 				(currentPage = Math.min(

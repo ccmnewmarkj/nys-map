@@ -1,5 +1,11 @@
 <!-- Source: https://github.com/coryetzkorn/state-svg-defs -->
-<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 84.16 64">
+<svg
+	aria-hidden="true"
+	id="Layer_1"
+	data-name="Layer 1"
+	xmlns="http://www.w3.org/2000/svg"
+	viewBox="0 0 84.16 64"
+>
 	<defs>
 		<style>
 			.cls-1 {

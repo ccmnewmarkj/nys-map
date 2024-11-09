@@ -1,4 +1,6 @@
-<!-- Source: https://iconoir.com/ --><svg
+<!-- Source: https://iconoir.com/ -->
+<svg
+	aria-hidden="true"
 	width="22px"
 	height="24px"
 	viewBox="0 0 24 20"
