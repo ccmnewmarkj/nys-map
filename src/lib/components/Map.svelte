@@ -56,10 +56,10 @@
 	let initialCenterLng;
 	let movedCenterLng;
 	// for mobile
-	let initialSWBoundsLng;
-	let initialNEBoundsLng;
-	let initialSWBoundsLngMoved;
-	let initialNEBoundsLngMoved;
+	// let initialSWBoundsLng;
+	// let initialNEBoundsLng;
+	// let initialSWBoundsLngMoved;
+	// let initialNEBoundsLngMoved;
 
 	let isMobile;
 
@@ -642,6 +642,7 @@
 		<hr />
 		<div class="highlight-reset-container" transition:fade={{ duration: 100 }}>
 			<button
+				aria-label="Remove highlight around map marker for selected outlet"
 				style="font-family: 'Roboto Condensed', sans-serif; font-weight: 800; display: flex; gap: 5px;"
 				on:click|stopPropagation={() => {
 					$selectedOutlet = undefined;
@@ -736,7 +737,6 @@
 		align-items: flex-end;
 		font-size: 12px;
 		font-weight: 600;
-		gap: 1px;
 		font-family: 'Roboto Condensed', sans-serif;
 	}
 
