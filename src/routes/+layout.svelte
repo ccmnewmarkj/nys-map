@@ -35,8 +35,7 @@
 	<meta name="twitter:creator" content="@ccmnewmarkj" />
 </svelte:head>
 
-<!-- {#await dataLoaded} -->
-{#await new Promise((resolve) => setTimeout(() => resolve(loadData), 3000))}
+{#await loadData}
 	<div class="page-container">
 		<div style="width: 50px; height: 50px;"><NYSIcon /></div>
 

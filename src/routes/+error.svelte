@@ -45,9 +45,9 @@
 				>
 			{:else}
 				<!-- if path added to domain -->
-				<LeftArrow />
-				Go to the
-				<a href="/">New York State Media Map</a>
+				<a href="/" style="display: flex; gap: 3px; align-items: center;"
+					><LeftArrow />New York State Media Map</a
+				>
 			{/if}
 		</p>
 	</div>
