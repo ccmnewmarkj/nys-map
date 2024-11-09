@@ -158,8 +158,7 @@
 				<button
 					on:click={() => (searchQuery = '')}
 					aria-label="Clear search terms"
-					class="clear-form-btn"
-					><CloseCircle fillColor="#7D7C7C" width="20px" height="20px" /></button
+					class="clear-form-btn">✕</button
 				>
 			{/if}
 		</div>
@@ -228,6 +227,7 @@
 							>
 						{/if}
 						{#if outlet.geometry.coordinates[0]}<button
+								aria-label="Highlights outlet marker on map"
 								class="card-btn map-btn"
 								on:click={() => {
 									$selectedOutlet = outlet.properties['Media Outlet'];
@@ -467,8 +467,9 @@
 
 	.clear-form-btn {
 		position: absolute;
-		top: 60%;
+		top: 55%;
 		transform: translateY(-60%);
-		right: 0;
+		right: 2px;
+		font-weight: 800;
 	}
 </style>
