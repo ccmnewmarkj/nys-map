@@ -630,7 +630,7 @@
 		<PolygonToggle bind:checked={showRegions} polygonType="Regions" />
 	</fieldset>
 
-	<hr class="map-elements" style="top: 8.5rem;" />
+	<!-- <hr class="map-elements" style="top: 8.5rem;" /> -->
 
 	<!-- Legend -->
 	<div class="map-elements legend-container">
@@ -639,8 +639,7 @@
 
 	<!-- Button: Reset highlighted outlet -->
 	{#if $selectedOutlet}
-		<hr />
-		<div class="highlight-reset-container" transition:fade={{ duration: 100 }}>
+		<div class="map-elements highlight-reset-container" transition:fade={{ duration: 100 }}>
 			<button
 				aria-label="Remove highlight around map marker for selected outlet"
 				style="font-family: 'Roboto Condensed', sans-serif; font-weight: 800; display: flex; gap: 5px;"
@@ -676,11 +675,11 @@
 		right: 10px;
 	}
 
-	hr {
+	/* hr {
 		border-top: 0.5px solid rgba(0, 0, 0, 0.5);
 		width: 125px;
 		margin: 0.75rem 0;
-	}
+	} */
 
 	.geocoder-container {
 		z-index: 1;
@@ -699,16 +698,6 @@
 		font-weight: 800;
 	}
 
-	@media only screen and (max-device-width: 512px) {
-		#map-elements-container {
-			top: 0;
-		}
-
-		.geocoder-container {
-			display: none;
-		}
-	}
-
 	.toggle-container {
 		margin-top: 0.75rem;
 		margin-bottom: 0.25rem;
@@ -720,10 +709,24 @@
 
 	.legend-container {
 		margin-top: 0.25rem;
-		top: 10rem;
+		top: 9rem;
 	}
 
-	/* reset button */
+	/* when outlet selected */
+	.highlight-reset-container {
+		/* margin-top: 0.75rem; */
+		font-size: 12px;
+		background-color: rgba(249, 232, 151, 0.5);
+		border: 1px solid var(--yellow);
+		border-radius: 3px;
+		bottom: 154px;
+	}
+
+	.highlight-reset-container button {
+		padding: 2px 5px;
+	}
+
+	/* reset map button */
 	.reset-container {
 		position: absolute;
 		bottom: 100px;
@@ -738,18 +741,23 @@
 	}
 
 	@media only screen and (max-device-width: 512px) {
+		.geocoder-container {
+			display: none;
+		}
+
+		.toggle-container {
+			top: 10px;
+		}
+		.legend-container {
+			top: 95px;
+		}
+		.highlight-reset-container {
+			bottom: 180px;
+		}
+
 		.reset-container {
 			bottom: 125px;
 		}
-	}
-
-	.highlight-reset-container {
-		margin-top: 0.75rem;
-		font-size: 12px;
-		background-color: rgba(249, 232, 151, 0.5);
-		border: 1px solid var(--yellow);
-		border-radius: 3px;
-		padding: 0px 2px;
 	}
 
 	fieldset {
