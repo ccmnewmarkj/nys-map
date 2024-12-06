@@ -132,9 +132,15 @@
 		left: 22px;
 	}
 
-	label:focus-within {
+	/* label:focus-within {
 		padding: 2px 2px 4px 4px;
 		border-width: 2px;
 		border-radius: 10px;
+	} */
+
+	/* focus outline */
+	label input[role='switch']:focus-visible ~ .toggle-state > .toggle-container {
+		outline: 2px solid var(--cerulean);
+		outline-offset: 2px;
 	}
 </style>
