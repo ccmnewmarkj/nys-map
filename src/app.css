@@ -86,7 +86,6 @@ body {
 
 a {
 	color: var(--cerulean);
-	text-decoration-thickness: 8; /* Thickness of underline as % of font size */
 }
 
 h1 {
