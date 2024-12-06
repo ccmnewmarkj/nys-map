@@ -149,9 +149,12 @@
 					'line-width': {
 						base: 0,
 						stops: [
-							[5, 0],
-							[6, 0.75],
-							[8, 1]
+							[5, 0.5],
+							[6, 1],
+							[8, 1.25]
+							// [5, 0],
+							// [6, 0.75],
+							// [8, 1]
 						]
 					}
 				}
@@ -188,9 +191,12 @@
 					'text-size': {
 						base: 0,
 						stops: [
-							[6, 0],
-							[8, 12],
-							[10, 14]
+							[5, 0.25],
+							[6, 0.75],
+							[8, 1]
+							// [6, 0],
+							// [8, 12],
+							// [10, 14]
 						]
 					}
 				},
@@ -566,6 +572,12 @@
 				// set zoom level
 				$map.setZoom(5);
 			}
+
+			// "Disable map rotation using right click + drag"
+			$map.dragRotate.disable();
+
+			// "Disable map rotation using touch rotation gesture"
+			$map.touchZoomRotate.disableRotation();
 		});
 	});
 
