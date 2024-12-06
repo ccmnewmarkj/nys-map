@@ -115,7 +115,7 @@
 <Map bind:sidebarVisible />
 
 <!-- Sidebar -->
-<section id="sidebar-container" aria-labelledby="sidebar-title">
+<div id="sidebar-container" aria-labelledby="sidebar-title">
 	{#if sidebarVisible}
 		<div class="sidebar-content" transition:fade={{ duration: 300 }}>
 			<Sidebar bind:sidebarVisible></Sidebar>
@@ -130,7 +130,7 @@
 			<ListIcon />
 		</button>
 	{/if}
-</section>
+</div>
 
 <style>
 	.sidebar-content {
